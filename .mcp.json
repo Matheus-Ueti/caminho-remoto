@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "shadcn-ui": {
+      "command": "npx",
+      "args": ["-y", "@jpisnice/shadcn-ui-mcp-server"]
+    },
+    "21st": {
+      "type": "http",
+      "url": "https://21st.dev/api/mcp",
+      "headers": { "x-api-key": "${TWENTY_FIRST_API_KEY}" }
+    }
+  }
+}
