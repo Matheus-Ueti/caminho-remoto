@@ -2,8 +2,8 @@
 
 Plataforma brasileira que une **vagas de emprego home office** e **cursos de qualificação** para essas vagas.
 
-**Fase atual: só o front, tudo mockado** (dados falsos, sem login, pagamento, afiliados ou banco de dados).
-O backend será feito depois, em outra pasta dentro deste mesmo projeto.
+**Fase atual:** a **autenticação é de verdade** e fala com a API em Java/Spring Boot, na pasta vizinha
+`../CaminhoRemotoAPI`. **Todo o resto ainda é mockado** (vagas, cursos, área do aluno, pagamento e afiliados).
 
 Contexto completo do produto: [CONTEXTO.md](./CONTEXTO.md).
 
@@ -30,9 +30,13 @@ O alias `@/` aponta para a raiz. Exemplo: `import { buscarVagas } from '@/lib/se
 Requer Node 20 ou mais novo.
 
 ```bash
-npm install        # instala tudo (uma vez)
-npm run dev        # sobe o site em http://localhost:3000
+cp .env.example .env.local   # endereço da API (uma vez)
+npm install                  # instala tudo (uma vez)
+npm run dev                  # sobe o site em http://localhost:3000
 ```
+
+Para o cadastro e o login funcionarem, a API também precisa estar rodando: em outro terminal, na
+pasta `../CaminhoRemotoAPI`, rode `./mvnw spring-boot:run` (veja o README de lá).
 
 | Comando             | O que faz                            |
 | ------------------- | ------------------------------------ |
@@ -41,7 +45,9 @@ npm run dev        # sobe o site em http://localhost:3000
 | `npm run lint`      | procura problemas no código (ESLint) |
 | `npm run format`    | formata o código (Prettier)          |
 
-## Telas (todas com dados mockados)
+## Telas
+
+`/cadastro` e `/entrar` usam a API de verdade. As outras usam dados mockados.
 
 | Rota               | Tela                                                        |
 | ------------------ | ----------------------------------------------------------- |
@@ -49,7 +55,8 @@ npm run dev        # sobe o site em http://localhost:3000
 | `/vagas/[id]`      | Vaga: requisitos, o que falta comprovar e curso recomendado |
 | `/cursos/[slug]`   | Página do curso, no estilo de página de venda               |
 | `/checkout/[slug]` | Compra (demonstração, nada é cobrado)                       |
-| `/cadastro`        | Criar conta                                                 |
+| `/cadastro`        | Criar conta (API)                                           |
+| `/entrar`          | Entrar (API)                                                |
 | `/aluno`           | Meus cursos e progresso                                     |
 | `/perfil`          | Perfil com certificados e competências verificadas          |
 | `/afiliado`        | Link e resultados de afiliado (sem percentuais)             |

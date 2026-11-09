@@ -28,7 +28,8 @@ Meu objetivo principal é ter um código **extremamente fácil de ler e entender
 
 - Next.js 16 (App Router), React 19 e TypeScript, projeto único na raiz.
 - Pastas: `app/` (rotas e páginas), `components/` (peças reutilizáveis), `data/` (dados mockados), `lib/` (funções que entregam os dados), `types/` (tipos TypeScript) e `public/` (imagens e arquivos estáticos).
-- Hoje tudo é **mockado**: sem login, pagamento, afiliados ou banco de dados. O backend será feito depois, em outra pasta.
+- A **autenticação é de verdade**: fala com a API em Java/Spring Boot, na pasta vizinha `../CaminhoRemotoAPI` (veja `lib/servicoAutenticacao.ts`).
+- **Todo o resto ainda é mockado**: vagas, cursos, área do aluno, pagamento e afiliados. Estado atual detalhado em `CONTEXTO.md`.
 
 # Regra de dados (importante para o futuro backend)
 

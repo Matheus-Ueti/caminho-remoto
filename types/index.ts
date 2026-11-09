@@ -61,3 +61,10 @@ export interface ResumoDoAfiliado {
   cliques: number
   vendas: number
 }
+
+export interface UsuarioLogado {
+  /** Identificador da pessoa no Keycloak (um texto, não um número). */
+  id: string
+  nome: string
+  email: string
+}
