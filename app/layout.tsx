@@ -1,9 +1,11 @@
 import type { CSSProperties, ReactNode } from 'react'
 import type { Metadata } from 'next'
+import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
+import { cores, fonte } from '@/lib/theme'
 
 export const metadata: Metadata = {
-  title: 'Caminho Remoto',
+  title: { default: 'Caminho Remoto', template: '%s · Caminho Remoto' },
   description: 'Vagas home office e cursos de qualificação para chegar até elas.',
   icons: { icon: '/favicon.svg' },
 }
@@ -14,6 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body style={estilos.corpo}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   )
@@ -21,5 +24,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 /* ===================== ESTILOS ===================== */
 const estilos: Record<string, CSSProperties> = {
-  corpo: { margin: 0, fontFamily: 'system-ui, sans-serif', minHeight: '100vh' },
+  corpo: {
+    margin: 0,
+    minHeight: '100vh',
+    fontFamily: fonte.familia,
+    fontSize: fonte.tamanho.md,
+    color: cores.texto,
+    backgroundColor: cores.fundo,
+  },
 }

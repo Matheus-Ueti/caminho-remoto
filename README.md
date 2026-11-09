@@ -41,6 +41,25 @@ npm run dev        # sobe o site em http://localhost:3000
 | `npm run lint`      | procura problemas no código (ESLint) |
 | `npm run format`    | formata o código (Prettier)          |
 
+## Telas (todas com dados mockados)
+
+| Rota               | Tela                                                        |
+| ------------------ | ----------------------------------------------------------- |
+| `/`                | Home: como funciona, vagas e cursos                         |
+| `/vagas/[id]`      | Vaga: requisitos, o que falta comprovar e curso recomendado |
+| `/cursos/[slug]`   | Página do curso, no estilo de página de venda               |
+| `/checkout/[slug]` | Compra (demonstração, nada é cobrado)                       |
+| `/cadastro`        | Criar conta                                                 |
+| `/aluno`           | Meus cursos e progresso                                     |
+| `/perfil`          | Perfil com certificados e competências verificadas          |
+| `/afiliado`        | Link e resultados de afiliado (sem percentuais)             |
+
+## Design
+
+Os "tokens" de design (cores, espaços, bordas, fontes) ficam em `lib/theme.ts`. Os blocos básicos
+(botão, cartão, selo, barra de progresso, campo) ficam em `components/ui/`, com variantes explícitas
+(ex.: `variante="contorno"`). Como não há CSS, não existe hover nem modo escuro por enquanto.
+
 ## Regra de estilo
 
 **Não existe CSS nem `className`, e não usamos Tailwind.** Todo estilo fica dentro do `.tsx`, em um objeto

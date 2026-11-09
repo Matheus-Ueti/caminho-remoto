@@ -69,7 +69,7 @@ Mais detalhes de como rodar e de como adicionar telas estão no [README](./READM
 ## Próximos passos
 
 1. Decidir as profissões do MVP e o nome final do projeto.
-2. Desenhar as telas do front com dados mockados: vaga, curso indicado, certificado e perfil.
+2. Revisar as telas já desenhadas (home, vaga, curso, checkout, cadastro, aluno, perfil e afiliado) e ajustar com o dono do projeto.
 3. Depois do front: criar o backend em outra pasta, em camadas, trocando os mocks por chamadas reais.
 4. Só então decidir banco de dados, hospedagem e meio de pagamento.
 
