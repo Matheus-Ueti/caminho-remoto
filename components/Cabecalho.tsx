@@ -1,15 +1,14 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
+import { Logo } from '@/components/Logo'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { BotaoLink } from '@/components/ui/BotaoLink'
+import { Icone } from '@/components/ui/Icone'
 import { cores, espaco, fonte } from '@/lib/tema'
 
 const linksDoMenu = [
-  { endereco: '/', texto: 'Vagas' },
+  { endereco: '/#vagas', texto: 'Vagas' },
   { endereco: '/#cursos', texto: 'Cursos' },
-  { endereco: '/aluno', texto: 'Meus cursos' },
-  { endereco: '/perfil', texto: 'Meu perfil' },
-  { endereco: '/afiliado', texto: 'Afiliado' },
 ]
 
 export function Cabecalho() {
@@ -17,17 +16,24 @@ export function Cabecalho() {
     <header style={estilos.cabecalho}>
       <AreaDaPagina>
         <div style={estilos.linha}>
-          <Link href="/" style={estilos.marca}>
-            Caminho Remoto
-          </Link>
-          <nav aria-label="Principal" style={estilos.menu}>
-            {linksDoMenu.map((linkDoMenu) => (
-              <Link key={linkDoMenu.endereco} href={linkDoMenu.endereco} style={estilos.linkDoMenu}>
-                {linkDoMenu.texto}
-              </Link>
-            ))}
-          </nav>
-          <BotaoLink href="/cadastro">Criar conta</BotaoLink>
+          <div style={estilos.esquerda}>
+            <Logo />
+            <nav aria-label="Principal" style={estilos.menu}>
+              {linksDoMenu.map((linkDoMenu) => (
+                <Link key={linkDoMenu.endereco} href={linkDoMenu.endereco} style={estilos.link}>
+                  {linkDoMenu.texto}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div style={estilos.direita}>
+            {/* MOCK: ainda não há login. "Entrar" leva direto à área do aluno de exemplo. */}
+            <Link href="/aluno" style={estilos.link}>
+              <Icone nome="usuario" tamanho={18} />
+              Entrar
+            </Link>
+            <BotaoLink href="/cadastro">Cadastrar</BotaoLink>
+          </div>
         </div>
       </AreaDaPagina>
     </header>
@@ -45,17 +51,16 @@ const estilos = {
     gap: espaco.md,
     padding: `${espaco.md}px 0`,
   },
-  marca: {
-    fontSize: fonte.tamanho.lg,
-    fontWeight: fonte.peso.negrito,
-    color: cores.primaria,
-    textDecoration: 'none',
-  },
-  menu: { display: 'flex', flexWrap: 'wrap', gap: espaco.md },
-  linkDoMenu: {
-    fontSize: fonte.tamanho.sm,
+  esquerda: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: espaco.xl },
+  menu: { display: 'flex', gap: espaco.lg },
+  direita: { display: 'flex', alignItems: 'center', gap: espaco.lg },
+  link: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 6,
+    fontSize: fonte.tamanho.md,
     fontWeight: fonte.peso.medio,
-    color: cores.textoSuave,
+    color: cores.texto,
     textDecoration: 'none',
   },
 } satisfies Record<string, CSSProperties>

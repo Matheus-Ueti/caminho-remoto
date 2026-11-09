@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react'
-import { cores, espaco, raio } from '@/lib/tema'
+import { cores, espaco, raio, sombra } from '@/lib/tema'
 
 type CartaoProps = {
   children: ReactNode
@@ -17,6 +17,7 @@ const estilos = {
     backgroundColor: cores.superficie,
     border: `1px solid ${cores.borda}`,
     borderRadius: raio.lg,
+    boxShadow: sombra.leve,
     padding: espaco.lg,
     display: 'flex',
     flexDirection: 'column',

@@ -1,35 +1,39 @@
 import type { CSSProperties } from 'react'
-import { Cartao } from '@/components/ui/Cartao'
-import { TituloSecao } from '@/components/ui/TituloSecao'
+import { Icone } from '@/components/ui/Icone'
+import type { NomeDoIcone } from '@/components/ui/Icone'
 import { LARGURA_MINIMA_DO_PASSO, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
-const passos = [
-  { titulo: 'Escolha uma vaga', texto: 'Veja vagas 100% remotas e o que cada uma exige.' },
+const passos: { icone: NomeDoIcone; titulo: string; texto: string }[] = [
   {
-    titulo: 'Descubra o que falta',
-    texto: 'Mostramos as competências que você ainda precisa comprovar.',
+    icone: 'maleta',
+    titulo: 'Encontre uma vaga',
+    texto: 'Descubra oportunidades de trabalho remoto.',
   },
-  { titulo: 'Faça o curso certo', texto: 'Indicamos o curso que prepara para aquela vaga.' },
+  { icone: 'play', titulo: 'Faça o curso ideal', texto: 'Aprenda o que falta para se candidatar.' },
   {
-    titulo: 'Candidate-se',
-    texto: 'Com certificado verificado, a empresa vê que você está pronto.',
+    icone: 'medalha',
+    titulo: 'Receba seu certificado',
+    texto: 'Comprove sua qualificação com um certificado.',
   },
+  { icone: 'aviao', titulo: 'Candidate-se', texto: 'Mostre seu novo perfil para as empresas.' },
 ]
 
 export function ComoFunciona() {
   return (
     <section style={estilos.secao}>
-      <TituloSecao>Como funciona</TituloSecao>
+      <div>
+        <h2 style={estilos.titulo}>Como funciona?</h2>
+        <p style={estilos.subtitulo}>
+          Um ecossistema completo para impulsionar sua carreira remota.
+        </p>
+      </div>
       <ol style={estilos.lista}>
         {passos.map((passo, posicao) => (
           <li key={passo.titulo} style={estilos.passo}>
-            <Cartao>
-              <span style={estilos.numero} aria-hidden="true">
-                {posicao + 1}
-              </span>
-              <strong>{passo.titulo}</strong>
-              <span style={estilos.texto}>{passo.texto}</span>
-            </Cartao>
+            <span style={estilos.numero}>{posicao + 1}</span>
+            <Icone nome={passo.icone} tamanho={40} cor={cores.primaria} />
+            <strong style={estilos.nomeDoPasso}>{passo.titulo}</strong>
+            <span style={estilos.texto}>{passo.texto}</span>
           </li>
         ))}
       </ol>
@@ -39,19 +43,34 @@ export function ComoFunciona() {
 
 /* ===================== ESTILOS ===================== */
 const estilos = {
-  secao: { display: 'flex', flexDirection: 'column', gap: espaco.md, marginTop: espaco.xl },
+  secao: { display: 'flex', flexDirection: 'column', gap: espaco.xl, marginTop: espaco.xxl },
+  titulo: {
+    margin: 0,
+    fontSize: fonte.tamanho.xxl,
+    fontWeight: fonte.peso.extra,
+    letterSpacing: fonte.espacamentoDosTitulos,
+  },
+  subtitulo: { margin: `${espaco.xs}px 0 0`, fontSize: fonte.tamanho.lg, color: cores.textoSuave },
   lista: { ...criarGrade(LARGURA_MINIMA_DO_PASSO), listStyle: 'none', padding: 0, margin: 0 },
-  passo: { display: 'flex' },
+  passo: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: espaco.sm,
+    textAlign: 'center',
+  },
   numero: {
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
     borderRadius: 999,
     backgroundColor: cores.primaria,
     color: cores.primariaTexto,
-    display: 'inline-flex',
+    fontSize: fonte.tamanho.xs,
+    fontWeight: fonte.peso.negrito,
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontWeight: fonte.peso.negrito,
   },
-  texto: { fontSize: fonte.tamanho.sm, color: cores.textoSuave },
+  nomeDoPasso: { fontSize: fonte.tamanho.md, color: cores.texto },
+  texto: { fontSize: fonte.tamanho.sm, color: cores.textoSuave, maxWidth: 220 },
 } satisfies Record<string, CSSProperties>
