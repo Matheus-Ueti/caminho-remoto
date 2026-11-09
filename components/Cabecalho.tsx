@@ -1,41 +1,41 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { BotaoLink } from '@/components/ui/button'
-import { Container } from '@/components/ui/container'
-import { cores, espaco, fonte } from '@/lib/theme'
+import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
+import { BotaoLink } from '@/components/ui/BotaoLink'
+import { cores, espaco, fonte } from '@/lib/tema'
 
-const links = [
-  { href: '/', rotulo: 'Vagas' },
-  { href: '/#cursos', rotulo: 'Cursos' },
-  { href: '/aluno', rotulo: 'Meus cursos' },
-  { href: '/perfil', rotulo: 'Meu perfil' },
-  { href: '/afiliado', rotulo: 'Afiliado' },
+const linksDoMenu = [
+  { endereco: '/', texto: 'Vagas' },
+  { endereco: '/#cursos', texto: 'Cursos' },
+  { endereco: '/aluno', texto: 'Meus cursos' },
+  { endereco: '/perfil', texto: 'Meu perfil' },
+  { endereco: '/afiliado', texto: 'Afiliado' },
 ]
 
-export function Header() {
+export function Cabecalho() {
   return (
     <header style={estilos.cabecalho}>
-      <Container>
+      <AreaDaPagina>
         <div style={estilos.linha}>
           <Link href="/" style={estilos.marca}>
             Caminho Remoto
           </Link>
-          <nav aria-label="Principal" style={estilos.nav}>
-            {links.map((link) => (
-              <Link key={link.href} href={link.href} style={estilos.link}>
-                {link.rotulo}
+          <nav aria-label="Principal" style={estilos.menu}>
+            {linksDoMenu.map((linkDoMenu) => (
+              <Link key={linkDoMenu.endereco} href={linkDoMenu.endereco} style={estilos.linkDoMenu}>
+                {linkDoMenu.texto}
               </Link>
             ))}
           </nav>
           <BotaoLink href="/cadastro">Criar conta</BotaoLink>
         </div>
-      </Container>
+      </AreaDaPagina>
     </header>
   )
 }
 
 /* ===================== ESTILOS ===================== */
-const estilos: Record<string, CSSProperties> = {
+const estilos = {
   cabecalho: { backgroundColor: cores.superficie, borderBottom: `1px solid ${cores.borda}` },
   linha: {
     display: 'flex',
@@ -51,11 +51,11 @@ const estilos: Record<string, CSSProperties> = {
     color: cores.primaria,
     textDecoration: 'none',
   },
-  nav: { display: 'flex', flexWrap: 'wrap', gap: espaco.md },
-  link: {
+  menu: { display: 'flex', flexWrap: 'wrap', gap: espaco.md },
+  linkDoMenu: {
     fontSize: fonte.tamanho.sm,
     fontWeight: fonte.peso.medio,
     color: cores.textoSuave,
     textDecoration: 'none',
   },
-}
+} satisfies Record<string, CSSProperties>

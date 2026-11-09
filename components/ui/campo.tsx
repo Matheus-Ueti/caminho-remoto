@@ -1,15 +1,21 @@
 import type { CSSProperties } from 'react'
-import { cores, espaco, fonte, raio } from '@/lib/theme'
+import { cores, espaco, fonte, raio } from '@/lib/tema'
 
-interface CampoProps {
+type CampoProps = {
   id: string
   rotulo: string
   tipo?: 'text' | 'email' | 'password' | 'tel'
-  placeholder?: string
-  autoComplete?: string
+  textoDeExemplo?: string
+  autoPreenchimento?: string
 }
 
-export function Campo({ id, rotulo, tipo = 'text', placeholder, autoComplete }: CampoProps) {
+export function Campo({
+  id,
+  rotulo,
+  tipo = 'text',
+  textoDeExemplo,
+  autoPreenchimento,
+}: CampoProps) {
   return (
     <div style={estilos.grupo}>
       <label htmlFor={id} style={estilos.rotulo}>
@@ -19,19 +25,19 @@ export function Campo({ id, rotulo, tipo = 'text', placeholder, autoComplete }: 
         id={id}
         name={id}
         type={tipo}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        style={estilos.input}
+        placeholder={textoDeExemplo}
+        autoComplete={autoPreenchimento}
+        style={estilos.campo}
       />
     </div>
   )
 }
 
 /* ===================== ESTILOS ===================== */
-const estilos: Record<string, CSSProperties> = {
+const estilos = {
   grupo: { display: 'flex', flexDirection: 'column', gap: espaco.xs },
   rotulo: { fontSize: fonte.tamanho.sm, fontWeight: fonte.peso.medio, color: cores.texto },
-  input: {
+  campo: {
     height: 40,
     padding: '0 12px',
     border: `1px solid ${cores.borda}`,
@@ -41,4 +47,4 @@ const estilos: Record<string, CSSProperties> = {
     color: cores.texto,
     backgroundColor: cores.superficie,
   },
-}
+} satisfies Record<string, CSSProperties>

@@ -1,18 +1,14 @@
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
-import { cores, fonte, raio } from '@/lib/theme'
+import { cores, fonte, raio } from '@/lib/tema'
 
-type Variante = 'primario' | 'secundario' | 'contorno'
-type Tamanho = 'normal' | 'grande'
+type VarianteDoBotao = 'primario' | 'secundario' | 'contorno'
+type TamanhoDoBotao = 'normal' | 'grande'
 
-function estiloBotao(variante: Variante, tamanho: Tamanho): CSSProperties {
-  return { ...estilos.base, ...estilos[variante], ...estilos[tamanho] }
-}
-
-interface BotaoLinkProps {
+type BotaoLinkProps = {
   href: string
-  variante?: Variante
-  tamanho?: Tamanho
+  variante?: VarianteDoBotao
+  tamanho?: TamanhoDoBotao
   children: ReactNode
 }
 
@@ -22,35 +18,17 @@ export function BotaoLink({
   tamanho = 'normal',
   children,
 }: BotaoLinkProps) {
+  const estiloDoBotao = { ...estilos.base, ...estilos[variante], ...estilos[tamanho] }
+
   return (
-    <Link href={href} style={estiloBotao(variante, tamanho)}>
+    <Link href={href} style={estiloDoBotao}>
       {children}
     </Link>
   )
 }
 
-interface BotaoProps {
-  tipo?: 'button' | 'submit'
-  variante?: Variante
-  tamanho?: Tamanho
-  children: ReactNode
-}
-
-export function Botao({
-  tipo = 'button',
-  variante = 'primario',
-  tamanho = 'normal',
-  children,
-}: BotaoProps) {
-  return (
-    <button type={tipo} style={estiloBotao(variante, tamanho)}>
-      {children}
-    </button>
-  )
-}
-
 /* ===================== ESTILOS ===================== */
-const estilos: Record<string, CSSProperties> = {
+const estilos = {
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -80,4 +58,4 @@ const estilos: Record<string, CSSProperties> = {
   },
   normal: { height: 40, padding: '0 16px', fontSize: fonte.tamanho.sm },
   grande: { height: 48, padding: '0 24px', fontSize: fonte.tamanho.md },
-}
+} satisfies Record<string, CSSProperties>

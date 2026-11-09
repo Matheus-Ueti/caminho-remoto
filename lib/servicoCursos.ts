@@ -1,7 +1,8 @@
+// MOCK: hoje devolve dados de `data/`. Com o backend, só o corpo destas funções muda.
 import { cursosMock } from '@/data/cursos'
 import type { Curso } from '@/types'
 
-export async function listarCursos(): Promise<Curso[]> {
+export async function buscarCursos(): Promise<Curso[]> {
   return cursosMock
 }
 

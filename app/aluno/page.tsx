@@ -1,59 +1,66 @@
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
-import { Badge } from '@/components/ui/badge'
-import { BotaoLink } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Container } from '@/components/ui/container'
-import { Progresso } from '@/components/ui/progress'
-import { TituloPagina, TituloSecao } from '@/components/ui/titulos'
-import { buscarAluno } from '@/lib/aluno-service'
-import { listarCursos } from '@/lib/cursos-service'
-import { cores, espaco, fonte, grade } from '@/lib/theme'
+import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
+import { BarraProgresso } from '@/components/ui/BarraProgresso'
+import { BotaoLink } from '@/components/ui/BotaoLink'
+import { Cartao } from '@/components/ui/Cartao'
+import { Selo } from '@/components/ui/Selo'
+import { TituloPagina } from '@/components/ui/TituloPagina'
+import { TituloSecao } from '@/components/ui/TituloSecao'
+import { buscarAluno } from '@/lib/servicoAluno'
+import { buscarCursos } from '@/lib/servicoCursos'
+import { LARGURA_MINIMA_DO_CARTAO, cores, criarGrade, espaco, fonte } from '@/lib/tema'
+
+const PROGRESSO_CURSO_CONCLUIDO = 100
 
 export const metadata: Metadata = { title: 'Meus cursos' }
 
 export default async function PaginaAluno() {
-  const [aluno, cursos] = await Promise.all([buscarAluno(), listarCursos()])
+  const [aluno, cursos] = await Promise.all([buscarAluno(), buscarCursos()])
+  const primeiroNome = aluno.nome.split(' ')[0]
 
   return (
     <main>
-      <Container>
+      <AreaDaPagina>
         <div style={estilos.pagina}>
-          <TituloPagina
-            titulo={`Olá, ${aluno.nome.split(' ')[0]}`}
-            descricao="Continue de onde parou."
-          />
+          <TituloPagina titulo={`Olá, ${primeiroNome}`} descricao="Continue de onde parou." />
 
           <TituloSecao>Meus cursos</TituloSecao>
-          <div style={grade(300)}>
+          <div style={estilos.grade}>
             {aluno.matriculas.map((matricula) => {
-              const curso = cursos.find((item) => item.slug === matricula.cursoSlug)
+              const curso = cursos.find((cursoDaLista) => cursoDaLista.slug === matricula.cursoSlug)
               if (!curso) return null
-              const concluido = matricula.progresso === 100
+
+              const estaConcluido = matricula.progressoEmPorcentagem === PROGRESSO_CURSO_CONCLUIDO
+              const varianteDoSelo = estaConcluido ? 'sucesso' : 'primario'
+              const textoDoSelo = estaConcluido ? 'Concluído' : 'Em andamento'
+              const varianteDoBotao = estaConcluido ? 'contorno' : 'primario'
+              const textoDoBotao = estaConcluido ? 'Rever curso' : 'Continuar'
+
               return (
-                <Card key={curso.slug}>
+                <Cartao key={curso.slug}>
                   <div style={estilos.linha}>
                     <strong>{curso.titulo}</strong>
-                    <Badge variante={concluido ? 'sucesso' : 'primario'}>
-                      {concluido ? 'Concluído' : 'Em andamento'}
-                    </Badge>
+                    <Selo variante={varianteDoSelo}>{textoDoSelo}</Selo>
                   </div>
-                  <Progresso valor={matricula.progresso} rotulo={`Progresso em ${curso.titulo}`} />
-                  <span style={estilos.suave}>{matricula.progresso}% concluído</span>
-                  <BotaoLink
-                    href={`/cursos/${curso.slug}`}
-                    variante={concluido ? 'contorno' : 'primario'}
-                  >
-                    {concluido ? 'Rever curso' : 'Continuar'}
+                  <BarraProgresso
+                    porcentagem={matricula.progressoEmPorcentagem}
+                    descricao={`Progresso em ${curso.titulo}`}
+                  />
+                  <span style={estilos.textoSuave}>
+                    {matricula.progressoEmPorcentagem}% concluído
+                  </span>
+                  <BotaoLink href={`/cursos/${curso.slug}`} variante={varianteDoBotao}>
+                    {textoDoBotao}
                   </BotaoLink>
-                </Card>
+                </Cartao>
               )
             })}
           </div>
 
-          <Card>
+          <Cartao>
             <strong>Quer outro curso?</strong>
-            <span style={estilos.suave}>
+            <span style={estilos.textoSuave}>
               Veja as vagas e descubra qual curso falta para cada uma.
             </span>
             <div>
@@ -61,21 +68,22 @@ export default async function PaginaAluno() {
                 Ver vagas
               </BotaoLink>
             </div>
-          </Card>
+          </Cartao>
         </div>
-      </Container>
+      </AreaDaPagina>
     </main>
   )
 }
 
 /* ===================== ESTILOS ===================== */
-const estilos: Record<string, CSSProperties> = {
+const estilos = {
   pagina: { display: 'flex', flexDirection: 'column', gap: espaco.lg, marginTop: espaco.xl },
+  grade: criarGrade(LARGURA_MINIMA_DO_CARTAO),
   linha: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     gap: espaco.sm,
   },
-  suave: { fontSize: fonte.tamanho.sm, color: cores.textoSuave },
-}
+  textoSuave: { fontSize: fonte.tamanho.sm, color: cores.textoSuave },
+} satisfies Record<string, CSSProperties>

@@ -15,7 +15,7 @@ Next.js 16 (App Router), React 19 e TypeScript. A estrutura segue a do repositó
 
 ```
 app/          Rotas e layout (App Router)
-components/   Componentes de tela (um arquivo por componente, nome em kebab-case)
+components/   Componentes de tela (um arquivo por componente, com o mesmo nome do componente)
 data/         Dados falsos (mocks)
 hooks/        Hooks do React (criar a pasta quando houver o primeiro)
 lib/          Funções de apoio e serviços que entregam dados às telas
@@ -23,7 +23,7 @@ types/        Tipos do TypeScript compartilhados
 public/       Arquivos estáticos (ícones, imagens)
 ```
 
-O alias `@/` aponta para a raiz. Exemplo: `import { listarVagas } from '@/lib/vagas-service'`.
+O alias `@/` aponta para a raiz. Exemplo: `import { buscarVagas } from '@/lib/servicoVagas'`.
 
 ## Como rodar
 
@@ -56,7 +56,7 @@ npm run dev        # sobe o site em http://localhost:3000
 
 ## Design
 
-Os "tokens" de design (cores, espaços, bordas, fontes) ficam em `lib/theme.ts`. Os blocos básicos
+Os "tokens" de design (cores, espaços, bordas, fontes) ficam em `lib/tema.ts`. Os blocos básicos
 (botão, cartão, selo, barra de progresso, campo) ficam em `components/ui/`, com variantes explícitas
 (ex.: `variante="contorno"`). Como não há CSS, não existe hover nem modo escuro por enquanto.
 
@@ -68,7 +68,7 @@ chamado `estilos` no **final do arquivo**, e é usado com `style={estilos.nome}`
 ## Como os dados mockados funcionam
 
 Componentes e páginas **nunca** importam os mocks direto. Eles chamam uma função de `lib/`
-(ex.: `listarVagas()` em `lib/vagas-service.ts`), que hoje devolve os dados de `data/`.
+(ex.: `buscarVagas()` em `lib/servicoVagas.ts`), que hoje devolve os dados de `data/`.
 
 Quando o backend existir, só o corpo da função em `lib/` muda (trocando o mock por um `fetch`).
 As telas continuam iguais.

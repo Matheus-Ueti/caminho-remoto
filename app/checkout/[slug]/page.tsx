@@ -1,44 +1,45 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
-import { BotaoLink } from '@/components/ui/button'
-import { Campo } from '@/components/ui/campo'
-import { Card } from '@/components/ui/card'
-import { Container } from '@/components/ui/container'
-import { TituloPagina } from '@/components/ui/titulos'
-import { buscarCursoPorSlug, listarCursos } from '@/lib/cursos-service'
-import { formatarPreco } from '@/lib/format'
-import { cores, espaco, fonte } from '@/lib/theme'
+import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
+import { BotaoLink } from '@/components/ui/BotaoLink'
+import { Campo } from '@/components/ui/Campo'
+import { Cartao } from '@/components/ui/Cartao'
+import { TituloPagina } from '@/components/ui/TituloPagina'
+import { formatarPreco } from '@/lib/formatacao'
+import { buscarCursoPorSlug, buscarCursos } from '@/lib/servicoCursos'
+import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
-interface Props {
+type PaginaCheckoutProps = {
   params: Promise<{ slug: string }>
 }
 
 export const metadata: Metadata = { title: 'Finalizar compra' }
 
 export async function generateStaticParams() {
-  const cursos = await listarCursos()
+  const cursos = await buscarCursos()
   return cursos.map((curso) => ({ slug: curso.slug }))
 }
 
-export default async function PaginaCheckout({ params }: Props) {
+export default async function PaginaCheckout({ params }: PaginaCheckoutProps) {
   const { slug } = await params
   const curso = await buscarCursoPorSlug(slug)
   if (!curso) notFound()
 
   return (
     <main>
-      <Container>
+      <AreaDaPagina>
         <div style={estilos.pagina}>
           <TituloPagina
             titulo="Finalizar compra"
             descricao="Pagamento de demonstração: nada é cobrado."
           />
           <div style={estilos.colunas}>
-            <Card>
+            <Cartao>
               <strong>Seus dados</strong>
-              <Campo id="nome" rotulo="Nome completo" autoComplete="name" />
-              <Campo id="email" rotulo="E-mail" tipo="email" autoComplete="email" />
+              <Campo id="nome" rotulo="Nome completo" autoPreenchimento="name" />
+              <Campo id="email" rotulo="E-mail" tipo="email" autoPreenchimento="email" />
+              {/* DECISÃO EM ABERTO: meio de pagamento. Pix e cartão abaixo são só exemplo visual. */}
               <strong>Forma de pagamento</strong>
               <div style={estilos.opcoes}>
                 <label style={estilos.opcao}>
@@ -51,33 +52,28 @@ export default async function PaginaCheckout({ params }: Props) {
               <BotaoLink href="/aluno" tamanho="grande">
                 Confirmar compra
               </BotaoLink>
-            </Card>
+            </Cartao>
 
-            <Card>
+            <Cartao>
               <strong>Resumo</strong>
               <p style={estilos.resumo}>{curso.titulo}</p>
-              <p style={estilos.resumo}>{curso.duracaoHoras} horas · certificado incluso</p>
+              <p style={estilos.resumo}>{curso.duracaoEmHoras} horas · certificado incluso</p>
               <div style={estilos.total}>
                 <span>Total</span>
                 <span style={estilos.preco}>{formatarPreco(curso.preco)}</span>
               </div>
-            </Card>
+            </Cartao>
           </div>
         </div>
-      </Container>
+      </AreaDaPagina>
     </main>
   )
 }
 
 /* ===================== ESTILOS ===================== */
-const estilos: Record<string, CSSProperties> = {
+const estilos = {
   pagina: { display: 'flex', flexDirection: 'column', gap: espaco.lg, marginTop: espaco.xl },
-  colunas: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
-    gap: espaco.md,
-    alignItems: 'start',
-  },
+  colunas: { ...criarGrade(LARGURA_MINIMA_DA_COLUNA), alignItems: 'start' },
   opcoes: { display: 'flex', flexDirection: 'column', gap: espaco.sm },
   opcao: { display: 'flex', alignItems: 'center', gap: espaco.sm, fontSize: fonte.tamanho.md },
   resumo: { margin: 0, color: cores.textoSuave, fontSize: fonte.tamanho.sm },
@@ -89,4 +85,4 @@ const estilos: Record<string, CSSProperties> = {
     borderTop: `1px solid ${cores.borda}`,
   },
   preco: { fontSize: fonte.tamanho.xl, fontWeight: fonte.peso.negrito },
-}
+} satisfies Record<string, CSSProperties>

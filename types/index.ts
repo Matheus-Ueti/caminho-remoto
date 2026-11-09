@@ -1,24 +1,24 @@
-export type NivelVaga = 'Primeiro emprego' | 'Júnior' | 'Pleno'
+export type NivelDaVaga = 'Primeiro emprego' | 'Júnior' | 'Pleno'
 
 export interface Vaga {
   id: string
   titulo: string
   empresa: string
   area: string
-  nivel: NivelVaga
-  remota: boolean
+  nivel: NivelDaVaga
+  temTrabalhoRemoto: boolean
   salario: string
   descricao: string
   requisitos: string[]
-  /** Competências que a vaga exige. Os nomes batem com `Curso.competencias`. */
+  /** Competências que a vaga exige. Os nomes são iguais aos de `Curso.competencias`. */
   competenciasExigidas: string[]
-  /** Curso que prepara para esta vaga. */
+  /** Curso que prepara a pessoa para esta vaga. */
   cursoSlug: string
 }
 
 export interface Modulo {
   titulo: string
-  aulas: number
+  quantidadeDeAulas: number
 }
 
 export interface Curso {
@@ -27,8 +27,8 @@ export interface Curso {
   resumo: string
   descricao: string
   area: string
-  nivel: NivelVaga
-  duracaoHoras: number
+  nivel: NivelDaVaga
+  duracaoEmHoras: number
   preco: number
   autor: string
   modulos: Modulo[]
@@ -40,7 +40,7 @@ export interface Curso {
 export interface Matricula {
   cursoSlug: string
   /** De 0 a 100. */
-  progresso: number
+  progressoEmPorcentagem: number
 }
 
 export interface Certificado {
@@ -56,7 +56,7 @@ export interface Aluno {
   certificados: Certificado[]
 }
 
-export interface ResumoAfiliado {
+export interface ResumoDoAfiliado {
   link: string
   cliques: number
   vendas: number

@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from 'react'
 import type { Metadata } from 'next'
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
-import { cores, fonte } from '@/lib/theme'
+import { Cabecalho } from '@/components/Cabecalho'
+import { Rodape } from '@/components/Rodape'
+import { cores, fonte } from '@/lib/tema'
 
 export const metadata: Metadata = {
   title: { default: 'Caminho Remoto', template: '%s · Caminho Remoto' },
@@ -10,20 +10,24 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+type LayoutPrincipalProps = {
+  children: ReactNode
+}
+
+export default function LayoutPrincipal({ children }: LayoutPrincipalProps) {
   return (
     <html lang="pt-BR">
       <body style={estilos.corpo}>
-        <Header />
+        <Cabecalho />
         {children}
-        <Footer />
+        <Rodape />
       </body>
     </html>
   )
 }
 
 /* ===================== ESTILOS ===================== */
-const estilos: Record<string, CSSProperties> = {
+const estilos = {
   corpo: {
     margin: 0,
     minHeight: '100vh',
@@ -32,4 +36,4 @@ const estilos: Record<string, CSSProperties> = {
     color: cores.texto,
     backgroundColor: cores.fundo,
   },
-}
+} satisfies Record<string, CSSProperties>

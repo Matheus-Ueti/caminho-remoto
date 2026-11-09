@@ -1,5 +1,5 @@
-// Base de design. Como não usamos CSS, os "tokens" vivem aqui, como objetos TypeScript.
-// Inspirada no padrão neutro do shadcn/ui, com um verde-azulado como cor de destaque.
+// Base de design. Como não usamos CSS, as cores, espaços e fontes ficam aqui, como objetos.
+// Segue o padrão neutro do shadcn/ui, com um verde-azulado como cor de destaque.
 
 export const cores = {
   fundo: '#fafafa',
@@ -28,17 +28,23 @@ export const fonte = {
   peso: { normal: 400, medio: 500, forte: 600, negrito: 700 },
 } as const
 
-export const larguraMaxima = 1080
+export const LARGURA_MAXIMA_DA_PAGINA = 1080
 
-/** Grade responsiva sem media query: as colunas quebram sozinhas conforme a largura. */
-export function grade(minimo: number): {
+// Largura mínima de cada coluna antes de ela quebrar para a linha de baixo.
+export const LARGURA_MINIMA_DO_CARTAO = 280
+export const LARGURA_MINIMA_DA_COLUNA = 320
+export const LARGURA_MINIMA_DO_PASSO = 220
+export const LARGURA_MINIMA_DO_INDICADOR = 200
+
+/** Grade responsiva sem media query: as colunas quebram sozinhas conforme a largura da tela. */
+export function criarGrade(larguraMinima: number): {
   display: 'grid'
   gridTemplateColumns: string
   gap: number
 } {
   return {
     display: 'grid',
-    gridTemplateColumns: `repeat(auto-fit, minmax(min(${minimo}px, 100%), 1fr))`,
+    gridTemplateColumns: `repeat(auto-fit, minmax(min(${larguraMinima}px, 100%), 1fr))`,
     gap: espaco.md,
   }
 }

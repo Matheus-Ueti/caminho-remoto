@@ -1,12 +1,12 @@
-// Dados falsos (mock) da pessoa "logada". Não existe login de verdade ainda.
-import type { Aluno, ResumoAfiliado } from '@/types'
+// MOCK: dados falsos da pessoa "logada". Ainda não existe login de verdade.
+import type { Aluno, ResumoDoAfiliado } from '@/types'
 
 export const alunoMock: Aluno = {
   nome: 'Maria Exemplo',
   email: 'maria@exemplo.com.br',
   matriculas: [
-    { cursoSlug: 'atendimento-ao-cliente-remoto', progresso: 100 },
-    { cursoSlug: 'assistente-administrativo-digital', progresso: 45 },
+    { cursoSlug: 'atendimento-ao-cliente-remoto', progressoEmPorcentagem: 100 },
+    { cursoSlug: 'assistente-administrativo-digital', progressoEmPorcentagem: 45 },
   ],
   certificados: [
     {
@@ -17,8 +17,9 @@ export const alunoMock: Aluno = {
   ],
 }
 
-// Comissão e percentuais ainda não foram definidos, então não aparecem aqui.
-export const afiliadoMock: ResumoAfiliado = {
+// MOCK: números inventados.
+// DECISÃO EM ABERTO: percentuais de comissão do afiliado. Por isso não aparecem aqui.
+export const afiliadoMock: ResumoDoAfiliado = {
   link: 'https://caminhoremoto.com.br/r/maria-exemplo',
   cliques: 128,
   vendas: 6,

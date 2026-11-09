@@ -1,23 +1,28 @@
 import type { CSSProperties } from 'react'
-import { cores, raio } from '@/lib/theme'
+import { cores, raio } from '@/lib/tema'
 
-export function Progresso({ valor, rotulo }: { valor: number; rotulo: string }) {
+type BarraProgressoProps = {
+  porcentagem: number
+  descricao: string
+}
+
+export function BarraProgresso({ porcentagem, descricao }: BarraProgressoProps) {
   return (
     <div
       role="progressbar"
-      aria-label={rotulo}
+      aria-label={descricao}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-valuenow={valor}
+      aria-valuenow={porcentagem}
       style={estilos.trilho}
     >
-      <div style={{ ...estilos.barra, width: `${valor}%` }} />
+      <div style={{ ...estilos.barra, width: `${porcentagem}%` }} />
     </div>
   )
 }
 
 /* ===================== ESTILOS ===================== */
-const estilos: Record<string, CSSProperties> = {
+const estilos = {
   trilho: {
     height: 8,
     backgroundColor: cores.neutroSuave,
@@ -25,4 +30,4 @@ const estilos: Record<string, CSSProperties> = {
     overflow: 'hidden',
   },
   barra: { height: '100%', backgroundColor: cores.primaria, borderRadius: raio.pilula },
-}
+} satisfies Record<string, CSSProperties>

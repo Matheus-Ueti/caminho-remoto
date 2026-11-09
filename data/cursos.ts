@@ -1,4 +1,6 @@
-// Dados falsos (mock). As áreas são só exemplos: as profissões do MVP ainda não foram decididas.
+// MOCK: dados falsos de cursos, só para a demonstração.
+// DECISÃO EM ABERTO: quais profissões entram no MVP. As áreas abaixo são apenas exemplos.
+// DECISÃO EM ABERTO: se os cursos são só da plataforma ou também de outros produtores.
 import type { Curso } from '@/types'
 
 export const cursosMock: Curso[] = [
@@ -10,14 +12,14 @@ export const cursosMock: Curso[] = [
       'Um curso prático para quem quer começar em suporte e atendimento. Você aprende a se comunicar com clareza, resolver problemas e usar as ferramentas que as empresas usam no dia a dia.',
     area: 'Atendimento',
     nivel: 'Primeiro emprego',
-    duracaoHoras: 12,
+    duracaoEmHoras: 12,
     preco: 197,
     autor: 'Equipe Caminho Remoto',
     modulos: [
-      { titulo: 'Como funciona o atendimento remoto', aulas: 5 },
-      { titulo: 'Comunicação escrita que resolve', aulas: 8 },
-      { titulo: 'Ferramentas de chat e helpdesk', aulas: 7 },
-      { titulo: 'Lidando com clientes difíceis', aulas: 6 },
+      { titulo: 'Como funciona o atendimento remoto', quantidadeDeAulas: 5 },
+      { titulo: 'Comunicação escrita que resolve', quantidadeDeAulas: 8 },
+      { titulo: 'Ferramentas de chat e helpdesk', quantidadeDeAulas: 7 },
+      { titulo: 'Lidando com clientes difíceis', quantidadeDeAulas: 6 },
     ],
     aprendizados: [
       'Responder clientes com clareza e empatia',
@@ -35,14 +37,14 @@ export const cursosMock: Curso[] = [
       'Do básico de planilhas à organização de agenda e documentos: tudo o que uma empresa espera de quem trabalha com apoio administrativo à distância.',
     area: 'Administrativo',
     nivel: 'Júnior',
-    duracaoHoras: 16,
+    duracaoEmHoras: 16,
     preco: 247,
     autor: 'Equipe Caminho Remoto',
     modulos: [
-      { titulo: 'Rotina administrativa à distância', aulas: 6 },
-      { titulo: 'Planilhas do zero ao útil', aulas: 10 },
-      { titulo: 'Agenda, e-mails e documentos', aulas: 7 },
-      { titulo: 'Organização e prioridades', aulas: 5 },
+      { titulo: 'Rotina administrativa à distância', quantidadeDeAulas: 6 },
+      { titulo: 'Planilhas do zero ao útil', quantidadeDeAulas: 10 },
+      { titulo: 'Agenda, e-mails e documentos', quantidadeDeAulas: 7 },
+      { titulo: 'Organização e prioridades', quantidadeDeAulas: 5 },
     ],
     aprendizados: [
       'Criar e organizar planilhas',
@@ -60,14 +62,14 @@ export const cursosMock: Curso[] = [
       'Uma porta de entrada para a área de dados: planilhas avançadas, análise básica e gráficos claros, com exercícios baseados em situações reais de empresas.',
     area: 'Dados',
     nivel: 'Júnior',
-    duracaoHoras: 20,
+    duracaoEmHoras: 20,
     preco: 297,
     autor: 'Equipe Caminho Remoto',
     modulos: [
-      { titulo: 'O que faz quem trabalha com dados', aulas: 4 },
-      { titulo: 'Planilhas para análise', aulas: 9 },
-      { titulo: 'Análise de dados básica', aulas: 10 },
-      { titulo: 'Gráficos e apresentação', aulas: 7 },
+      { titulo: 'O que faz quem trabalha com dados', quantidadeDeAulas: 4 },
+      { titulo: 'Planilhas para análise', quantidadeDeAulas: 9 },
+      { titulo: 'Análise de dados básica', quantidadeDeAulas: 10 },
+      { titulo: 'Gráficos e apresentação', quantidadeDeAulas: 7 },
     ],
     aprendizados: [
       'Limpar e organizar dados em planilhas',
