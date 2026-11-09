@@ -42,25 +42,32 @@ Nenhuma destas foi decidida. Não decidir sozinho: perguntar ao dono do projeto 
 - [ ] Como exatamente funciona o ganho por afiliado (percentuais incluídos)
 - [ ] No início, os cursos são só da plataforma ou outros produtores também podem vender
 - [ ] Quais 2 ou 3 profissões entram no MVP
-- [ ] Banco de dados definitivo (hoje a API usa o H2 em memória, só para desenvolvimento)
+- [ ] Banco de dados definitivo (hoje a API não guarda nada; as contas ficam no Keycloak)
+- [ ] Servidor de login: manter o Keycloak ou trocar pelo Spring Authorization Server (só Spring, mas sem telas prontas)
+- [ ] Servidor de e-mail (necessário para "esqueci a senha" e confirmação de e-mail no Keycloak)
 - [ ] Hospedagem
 - [ ] Meio de pagamento
 - [ ] Nome final do projeto e do repositório (`trampo-remoto` ou `caminho-remoto`)
 
 ## Estado atual do projeto técnico
 
-O projeto tem **duas pastas**, lado a lado dentro de `ProjetoClaudio/`:
+O projeto tem **três pastas**, lado a lado dentro de `ProjetoClaudio/`:
 
-| Pasta               | O que é                                    | Repositório                                                    |
-| ------------------- | ------------------------------------------ | -------------------------------------------------------------- |
-| `CaminhoRemoto/`    | Front: Next.js 16, React 19 e TypeScript   | https://github.com/Matheus-Ueti/caminho-remoto (branch `main`) |
-| `CaminhoRemotoAPI/` | Backend: Java 21 e Spring Boot 4.1 (Maven) | Só local por enquanto (ainda não está no GitHub)               |
+| Pasta               | O que é                                    | Repositório                                          | Porta |
+| ------------------- | ------------------------------------------ | ---------------------------------------------------- | ----- |
+| `CaminhoRemoto/`    | Front: Next.js 16, React 19 e TypeScript   | https://github.com/Matheus-Ueti/caminho-remoto       | 3000  |
+| `CaminhoRemotoAPI/` | Backend: Java 21 e Spring Boot 4.1 (Maven) | https://github.com/Matheus-Ueti/caminho-remoto-api   | 8080  |
+| `keycloak/`         | Keycloak 26.8.2: servidor de login pronto  | Nenhum (baixado do site oficial; não é código nosso) | 8180  |
+
+O código do projeto é **só Spring Boot** no backend. O Keycloak é um programa pronto que usa Quarkus
+por dentro, mas nós só o configuramos, sem escrever código nele.
 
 **O que é de verdade e o que é mockado:**
 
-- **Autenticação: de verdade.** Cadastro, login, sair e "quem está logado" funcionam ponta a ponta,
-  do front até a API. Telas `/cadastro` e `/entrar`; o cabeçalho mostra "Olá, Nome · Sair" quando a
-  pessoa está logada.
+- **Autenticação: de verdade, com Keycloak.** "Cadastrar" e "Entrar" levam para as telas do Keycloak
+  (em português). Depois do login, a pessoa volta para `/aluno` e o cabeçalho mostra "Olá, Nome · Sair".
+  "Sair" encerra o login na API e no Keycloak. As rotas `/cadastro` e `/entrar` do site só redirecionam
+  para o Keycloak.
 - **Todo o resto: mockado.** Vagas, cursos, área do aluno, perfil, certificados, checkout e afiliado
   ainda usam dados falsos de `data/`. A área do aluno ainda mostra a "Maria Exemplo" para qualquer pessoa.
 - **Páginas ainda abertas:** `/aluno`, `/perfil` e `/afiliado` abrem mesmo sem login.
@@ -70,7 +77,8 @@ O projeto tem **duas pastas**, lado a lado dentro de `ProjetoClaudio/`:
 - **Estrutura:** no padrão do repositório `websitemundo365`, com as pastas `app/`, `components/`,
   `data/`, `lib/`, `types/` e `public/`.
 - **Dados:** componentes e páginas chamam funções em `lib/`. As de vagas, cursos e aluno devolvem
-  mocks de `data/`. A de autenticação (`lib/servicoAutenticacao.ts`) chama a API.
+  mocks de `data/`. A de autenticação (`lib/servicoAutenticacao.ts`) tem os endereços de entrar,
+  cadastrar e sair, e pergunta à API quem está logado.
 - **Endereço da API:** variável `NEXT_PUBLIC_API_URL` no `.env.local` (modelo em `.env.example`).
 - **Design:** homepage no estilo da imagem em `ProjetoClaudio/imagens/`, com azul de destaque. Cores,
   espaços e fontes ficam em `lib/tema.ts`; ícones são SVGs próprios em `components/ui/`.
@@ -82,27 +90,46 @@ O projeto tem **duas pastas**, lado a lado dentro de `ProjetoClaudio/`:
 
 **Backend (`CaminhoRemotoAPI/`):**
 
-- **Rotas:** `POST /auth/cadastro`, `POST /auth/login`, `POST /auth/sair` e `GET /auth/eu`.
-- **Login:** senha guardada com BCrypt; JWT num cookie `httpOnly` (`SameSite=Lax`), válido por 8 horas.
-- **Banco:** H2 em memória, provisório. **Os usuários somem quando a API reinicia.**
+- **Como funciona o login:** a API faz a ponte com o Keycloak (OAuth2 Client do Spring Security).
+  Ela manda a pessoa para a tela do Keycloak, recebe a resposta e guarda quem está logado numa sessão
+  (cookie `JSESSIONID`, `SameSite=Lax`). Os tokens do Keycloak nunca chegam ao navegador.
+- **Rotas:** `GET /oauth2/authorization/keycloak` (entrar; `?cadastro=true` para criar conta),
+  `GET /auth/eu` (quem está logado) e `GET /auth/sair`.
+- **Banco:** a API não guarda nada por enquanto. As contas ficam no Keycloak e **não somem** ao reiniciar.
 - **CORS:** só o front em `http://localhost:3000` pode chamar a API.
-- **Comandos (na pasta da API):** `./mvnw spring-boot:run` (porta 8080) e `./mvnw test`.
-- **Requisitos da máquina:** JDK 21 (Temurin, instalado em `C:\Program Files\Eclipse Adoptium`).
-  O antivírus Avast inspeciona HTTPS, então o Maven precisa de
-  `MAVEN_OPTS=-Djavax.net.ssl.trustStoreType=Windows-ROOT` para baixar as bibliotecas.
+- **Comandos (na pasta da API):** `./mvnw spring-boot:run` e `./mvnw test`. Os testes não precisam
+  do Keycloak rodando.
 
-**Para rodar tudo:** em um terminal, `./mvnw spring-boot:run` na API; em outro, `npm run dev` no front.
-Depois abra http://localhost:3000.
+**Keycloak (`keycloak/`):**
+
+- **Console:** http://localhost:8180, usuário **`admin`**, senha **`admin`** (somente desenvolvimento).
+- **Configuração:** fica no repositório da API, em `keycloak/realm-caminho-remoto.json` (realm
+  `caminho-remoto`: cadastro aberto, e-mail como usuário, telas em português, PKCE obrigatório).
+- **Para subir:** `CaminhoRemotoAPI\keycloak\iniciar-keycloak.cmd`.
+- **Limitação:** "esqueci a senha" está desligado porque não há servidor de e-mail. A tela de login
+  tem o visual padrão do Keycloak (dá para personalizar depois).
+
+**Requisitos da máquina:** JDK 21 (Temurin, instalado em `C:\Program Files\Eclipse Adoptium`).
+O antivírus Avast inspeciona HTTPS, então o Maven precisa de
+`MAVEN_OPTS=-Djavax.net.ssl.trustStoreType=Windows-ROOT` para baixar as bibliotecas.
+
+**Para rodar tudo**, cada um num terminal e nesta ordem:
+
+1. `CaminhoRemotoAPI\keycloak\iniciar-keycloak.cmd` (Keycloak, porta 8180)
+2. `./mvnw spring-boot:run` na pasta da API (porta 8080)
+3. `npm run dev` na pasta do front (porta 3000)
+
+Depois abra http://localhost:3000. A API não tem páginas: abrir a porta 8080 direto mostra 401, e isso é normal.
 
 Mais detalhes nos READMEs de cada pasta.
 
 ## Próximos passos
 
-1. Decidir as profissões do MVP, o nome final do projeto e o banco de dados definitivo.
-2. Subir a API para um repositório no GitHub.
-3. Proteger `/aluno`, `/perfil` e `/afiliado` para só abrirem com login, e mostrar os dados de quem está logado.
+1. Decidir as profissões do MVP, o nome final do projeto, o banco de dados definitivo e se o Keycloak fica.
+2. Proteger `/aluno`, `/perfil` e `/afiliado` para só abrirem com login, e mostrar os dados de quem está logado.
+3. Deixar a tela de login do Keycloak com o visual do site.
 4. Trocar os outros mocks (vagas, cursos, matrículas) por rotas reais na API, uma de cada vez.
-5. Decidir hospedagem e meio de pagamento.
+5. Decidir hospedagem, meio de pagamento e servidor de e-mail.
 
 ## Como trabalhar neste projeto
 

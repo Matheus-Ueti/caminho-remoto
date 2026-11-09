@@ -2,8 +2,9 @@
 
 Plataforma brasileira que une **vagas de emprego home office** e **cursos de qualificação** para essas vagas.
 
-**Fase atual:** a **autenticação é de verdade** e fala com a API em Java/Spring Boot, na pasta vizinha
-`../CaminhoRemotoAPI`. **Todo o resto ainda é mockado** (vagas, cursos, área do aluno, pagamento e afiliados).
+**Fase atual:** a **autenticação é de verdade**, feita pelo **Keycloak** com a API em Java/Spring Boot
+fazendo a ponte (pasta vizinha `../CaminhoRemotoAPI`). **Todo o resto ainda é mockado** (vagas, cursos,
+área do aluno, pagamento e afiliados).
 
 Contexto completo do produto: [CONTEXTO.md](./CONTEXTO.md).
 
@@ -35,8 +36,8 @@ npm install                  # instala tudo (uma vez)
 npm run dev                  # sobe o site em http://localhost:3000
 ```
 
-Para o cadastro e o login funcionarem, a API também precisa estar rodando: em outro terminal, na
-pasta `../CaminhoRemotoAPI`, rode `./mvnw spring-boot:run` (veja o README de lá).
+Para entrar e criar conta funcionarem, o **Keycloak** (porta 8180) e a **API** (porta 8080) também
+precisam estar rodando. Como subir os dois está no README de `../CaminhoRemotoAPI`.
 
 | Comando             | O que faz                            |
 | ------------------- | ------------------------------------ |
@@ -47,7 +48,8 @@ pasta `../CaminhoRemotoAPI`, rode `./mvnw spring-boot:run` (veja o README de lá
 
 ## Telas
 
-`/cadastro` e `/entrar` usam a API de verdade. As outras usam dados mockados.
+Entrar e criar conta acontecem nas telas do Keycloak. As rotas `/cadastro` e `/entrar` só redirecionam
+para lá. As outras telas usam dados mockados.
 
 | Rota               | Tela                                                        |
 | ------------------ | ----------------------------------------------------------- |
@@ -55,8 +57,8 @@ pasta `../CaminhoRemotoAPI`, rode `./mvnw spring-boot:run` (veja o README de lá
 | `/vagas/[id]`      | Vaga: requisitos, o que falta comprovar e curso recomendado |
 | `/cursos/[slug]`   | Página do curso, no estilo de página de venda               |
 | `/checkout/[slug]` | Compra (demonstração, nada é cobrado)                       |
-| `/cadastro`        | Criar conta (API)                                           |
-| `/entrar`          | Entrar (API)                                                |
+| `/cadastro`        | Leva para a tela de criar conta do Keycloak                 |
+| `/entrar`          | Leva para a tela de login do Keycloak                       |
 | `/aluno`           | Meus cursos e progresso                                     |
 | `/perfil`          | Perfil com certificados e competências verificadas          |
 | `/afiliado`        | Link e resultados de afiliado (sem percentuais)             |
