@@ -1,7 +1,7 @@
 // MOCK: hoje devolve dados de `data/`. Com o backend, só o corpo destas funções muda.
 import { afiliadoMock, alunoMock } from '@/data/aluno'
 import { cursosMock } from '@/data/cursos'
-import type { Aluno, ResumoDoAfiliado, Vaga } from '@/types'
+import type { Aluno, ResumoDoAfiliado } from '@/types'
 
 export async function buscarAluno(): Promise<Aluno> {
   return alunoMock
@@ -18,8 +18,3 @@ export function calcularCompetenciasVerificadas(aluno: Aluno): string[] {
   return cursosComCertificado.flatMap((curso) => curso.competencias)
 }
 
-/** Competências que a vaga exige e o aluno ainda não comprovou. */
-export function calcularCompetenciasFaltantes(vaga: Vaga, aluno: Aluno): string[] {
-  const comprovadas = new Set(calcularCompetenciasVerificadas(aluno))
-  return vaga.competenciasExigidas.filter((competencia) => !comprovadas.has(competencia))
-}

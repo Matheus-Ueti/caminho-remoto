@@ -3,7 +3,7 @@
 // Entrar, criar conta e sair acontecem no Keycloak, com a API fazendo a ponte.
 import type { UsuarioLogado } from '@/types'
 
-const ENDERECO_DA_API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
+export const ENDERECO_DA_API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 
 /** Leva para a tela de login do Keycloak. Depois do login, a pessoa volta para a área do aluno. */
 export const ENDERECO_PARA_ENTRAR = `${ENDERECO_DA_API}/oauth2/authorization/keycloak`

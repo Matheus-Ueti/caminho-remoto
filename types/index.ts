@@ -1,19 +1,17 @@
 export type NivelDaVaga = 'Primeiro emprego' | 'Júnior' | 'Pleno'
 
+/** Vaga home office vinda da API, que a busca em sites de fora (hoje o Jooble). */
 export interface Vaga {
   id: string
   titulo: string
   empresa: string
-  area: string
-  nivel: NivelDaVaga
-  temTrabalhoRemoto: boolean
+  local: string
+  /** Pode vir vazio: muitas vagas não informam o salário. */
   salario: string
-  descricao: string
-  requisitos: string[]
-  /** Competências que a vaga exige. Os nomes são iguais aos de `Curso.competencias`. */
-  competenciasExigidas: string[]
-  /** Curso que prepara a pessoa para esta vaga. */
-  cursoSlug: string
+  resumo: string
+  /** Endereço da vaga no site original, onde a pessoa se candidata. */
+  link: string
+  atualizadaEm: string
 }
 
 export interface Modulo {

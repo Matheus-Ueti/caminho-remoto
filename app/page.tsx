@@ -9,8 +9,11 @@ import { buscarCursos } from '@/lib/servicoCursos'
 import { buscarVagas } from '@/lib/servicoVagas'
 import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
+const MAXIMO_VAGAS_NA_HOME = 6
+
 export default async function PaginaInicial() {
-  const [vagas, cursos] = await Promise.all([buscarVagas(), buscarCursos()])
+  const [todasAsVagas, cursos] = await Promise.all([buscarVagas(), buscarCursos()])
+  const vagas = todasAsVagas.slice(0, MAXIMO_VAGAS_NA_HOME)
 
   return (
     <main>
@@ -19,6 +22,7 @@ export default async function PaginaInicial() {
         <div style={estilos.destaques}>
           <section id="vagas" style={estilos.coluna}>
             <h2 style={estilos.titulo}>Vagas em destaque</h2>
+            {vagas.length === 0 && <p>Nenhuma vaga no momento. Volte mais tarde.</p>}
             {vagas.map((vaga) => (
               <CartaoVaga key={vaga.id} vaga={vaga} />
             ))}
