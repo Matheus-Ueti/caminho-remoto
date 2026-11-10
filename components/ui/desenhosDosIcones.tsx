@@ -54,6 +54,7 @@ export const desenhosDosIcones = {
       <path d="M22 2 15 22l-4-9-9-4Z" />
     </>
   ),
+  check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
   seta: (
     <>
       <path d="M5 12h14" />
