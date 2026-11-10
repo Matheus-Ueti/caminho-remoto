@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { AvisoSemVagas } from '@/components/AvisoSemVagas'
 import { BannerInicial } from '@/components/BannerInicial'
 import { CartaoCurso } from '@/components/CartaoCurso'
 import { CartaoVaga } from '@/components/CartaoVaga'
@@ -28,7 +29,7 @@ export default async function PaginaInicial() {
         <div style={estilos.destaques}>
           <section id="vagas" style={estilos.coluna}>
             <h2 style={estilos.titulo}>Vagas em destaque</h2>
-            {vagas.length === 0 && <p>Nenhuma vaga no momento. Volte mais tarde.</p>}
+            {vagas.length === 0 && <AvisoSemVagas />}
             {vagas.map((vaga) => (
               <CartaoVaga key={vaga.id} vaga={vaga} />
             ))}
