@@ -1,10 +1,10 @@
 import type { CSSProperties } from 'react'
 import { PlayerDeShort } from '@/components/PlayerDeShort'
-import { TituloSecao } from '@/components/ui/TituloSecao'
-import { criarGrade, espaco } from '@/lib/tema'
+import { cores, espaco, fonte } from '@/lib/tema'
 import type { VideoShort } from '@/types'
 
-const LARGURA_MINIMA_DO_VIDEO = 180
+// Largura de cada vídeo: cabem uns 6 por linha no computador e 2 no celular.
+const LARGURA_MINIMA_DO_VIDEO = 150
 
 type DicasEmVideoProps = {
   videos: VideoShort[]
@@ -15,8 +15,10 @@ export function DicasEmVideo({ videos }: DicasEmVideoProps) {
   if (videos.length === 0) return null
 
   return (
-    <section aria-label="Dicas em vídeo" style={estilos.secao}>
-      <TituloSecao>Dicas em vídeo</TituloSecao>
+    <section aria-labelledby="titulo-dicas-em-video" style={estilos.secao}>
+      <h2 id="titulo-dicas-em-video" style={estilos.titulo}>
+        Dicas em vídeo
+      </h2>
       <div style={estilos.grade}>
         {videos.map((video) => (
           <PlayerDeShort key={video.idDoYoutube} video={video} />
@@ -28,6 +30,18 @@ export function DicasEmVideo({ videos }: DicasEmVideoProps) {
 
 /* ===================== ESTILOS ===================== */
 const estilos = {
-  secao: { display: 'flex', flexDirection: 'column', gap: espaco.md, marginTop: espaco.xl },
-  grade: { ...criarGrade(LARGURA_MINIMA_DO_VIDEO), gap: espaco.md },
+  secao: { display: 'flex', flexDirection: 'column', gap: espaco.md, marginTop: espaco.xxl },
+  titulo: {
+    margin: 0,
+    fontSize: fonte.tamanho.xl,
+    fontWeight: fonte.peso.extra,
+    letterSpacing: fonte.espacamentoDosTitulos,
+    color: cores.texto,
+  },
+  // auto-fill (e não auto-fit): com poucos vídeos, eles continuam pequenos em vez de esticar.
+  grade: {
+    display: 'grid',
+    gridTemplateColumns: `repeat(auto-fill, minmax(${LARGURA_MINIMA_DO_VIDEO}px, 1fr))`,
+    gap: espaco.md,
+  },
 } satisfies Record<string, CSSProperties>
