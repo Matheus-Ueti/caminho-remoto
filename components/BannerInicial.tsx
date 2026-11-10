@@ -1,10 +1,10 @@
 import type { CSSProperties } from 'react'
 import { BarraDeBusca } from '@/components/BarraDeBusca'
 import { FundoAnimado } from '@/components/FundoAnimado'
+import { IlustracaoDoBanner } from '@/components/IlustracaoDoBanner'
 import { SelosDeConfianca } from '@/components/SelosDeConfianca'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
-import { Icone } from '@/components/ui/Icone'
-import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte, raio } from '@/lib/tema'
+import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
 export function BannerInicial() {
   return (
@@ -25,9 +25,8 @@ export function BannerInicial() {
             <SelosDeConfianca />
           </div>
 
-          {/* MOCK: espaço reservado para a foto do banner, que ainda não temos. */}
-          <div style={estilos.espacoDaFoto} aria-hidden="true">
-            <Icone nome="usuario" tamanho={96} cor={cores.primariaTexto} />
+          <div style={estilos.espacoDaIlustracao}>
+            <IlustracaoDoBanner />
           </div>
         </div>
       </AreaDaPagina>
@@ -61,14 +60,5 @@ const estilos = {
     textUnderlineOffset: 10,
   },
   subtitulo: { margin: 0, fontSize: fonte.tamanho.lg, lineHeight: 1.5, color: cores.textoSuave },
-  espacoDaFoto: {
-    minHeight: 360,
-    borderRadius: raio.xl,
-    // Branco translúcido, para o espaço da foto aparecer sobre o fundo azul.
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    border: '2px dashed rgba(255, 255, 255, 0.6)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  espacoDaIlustracao: { display: 'flex', justifyContent: 'center' },
 } satisfies Record<string, CSSProperties>
