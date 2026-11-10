@@ -1,10 +1,12 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
+import { DicasEmVideo } from '@/components/DicasEmVideo'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { BotaoLink } from '@/components/ui/BotaoLink'
 import { Selo } from '@/components/ui/Selo'
 import { buscarVagaPorId } from '@/lib/servicoVagas'
+import { buscarVideosDaVaga } from '@/lib/servicoVideos'
 import { cores, espaco, fonte } from '@/lib/tema'
 
 type PaginaVagaProps = {
@@ -21,6 +23,7 @@ export default async function PaginaVaga({ params }: PaginaVagaProps) {
   const { id } = await params
   const vaga = await buscarVagaPorId(id)
   if (!vaga) notFound()
+  const videos = await buscarVideosDaVaga(id)
 
   return (
     <main>
@@ -41,6 +44,7 @@ export default async function PaginaVaga({ params }: PaginaVagaProps) {
             </BotaoLink>
           </div>
         </div>
+        <DicasEmVideo videos={videos} />
       </AreaDaPagina>
     </main>
   )

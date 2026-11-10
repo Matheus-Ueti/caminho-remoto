@@ -4,15 +4,21 @@ import { CartaoCurso } from '@/components/CartaoCurso'
 import { CartaoVaga } from '@/components/CartaoVaga'
 import { ChamadaCadastro } from '@/components/ChamadaCadastro'
 import { ComoFunciona } from '@/components/ComoFunciona'
+import { DicasEmVideo } from '@/components/DicasEmVideo'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { buscarCursos } from '@/lib/servicoCursos'
 import { buscarVagas } from '@/lib/servicoVagas'
+import { buscarVideos } from '@/lib/servicoVideos'
 import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
 const MAXIMO_VAGAS_NA_HOME = 6
 
 export default async function PaginaInicial() {
-  const [todasAsVagas, cursos] = await Promise.all([buscarVagas(), buscarCursos()])
+  const [todasAsVagas, cursos, videos] = await Promise.all([
+    buscarVagas(),
+    buscarCursos(),
+    buscarVideos(),
+  ])
   const vagas = todasAsVagas.slice(0, MAXIMO_VAGAS_NA_HOME)
 
   return (
@@ -36,6 +42,7 @@ export default async function PaginaInicial() {
           </section>
         </div>
 
+        <DicasEmVideo videos={videos} />
         <ComoFunciona />
         <ChamadaCadastro />
       </AreaDaPagina>

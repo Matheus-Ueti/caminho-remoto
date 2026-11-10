@@ -54,6 +54,16 @@ export interface Aluno {
   certificados: Certificado[]
 }
 
+/** Short do YouTube mostrado no site, na seção "Dicas em vídeo". */
+export interface VideoShort {
+  /** O código depois de `/shorts/` no endereço do vídeo. */
+  idDoYoutube: string
+  titulo: string
+  area: string
+  cursoSlug?: string
+  vagaId?: string
+}
+
 /* ===================== AFILIADOS ===================== */
 
 export type OrigemDaDivulgacao = 'youtube_shorts' | 'instagram' | 'whatsapp' | 'outro'

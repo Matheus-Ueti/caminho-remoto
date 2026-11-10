@@ -3,9 +3,11 @@ import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import { CartaoCompra } from '@/components/CartaoCompra'
 import { ConteudoDoCurso } from '@/components/ConteudoDoCurso'
+import { DicasEmVideo } from '@/components/DicasEmVideo'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { Selo } from '@/components/ui/Selo'
 import { buscarCursoPorSlug, buscarCursos } from '@/lib/servicoCursos'
+import { buscarVideosDoCurso } from '@/lib/servicoVideos'
 import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
 type PaginaCursoProps = {
@@ -27,6 +29,7 @@ export default async function PaginaCurso({ params }: PaginaCursoProps) {
   const { slug } = await params
   const curso = await buscarCursoPorSlug(slug)
   if (!curso) notFound()
+  const videos = await buscarVideosDoCurso(slug)
 
   return (
     <main>
@@ -47,6 +50,7 @@ export default async function PaginaCurso({ params }: PaginaCursoProps) {
             <CartaoCompra curso={curso} />
           </aside>
         </div>
+        <DicasEmVideo videos={videos} />
       </AreaDaPagina>
     </main>
   )
