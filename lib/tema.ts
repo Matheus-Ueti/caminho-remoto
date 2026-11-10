@@ -1,6 +1,8 @@
 // Base de design. Como não usamos CSS, as cores, espaços e fontes ficam aqui, como objetos.
 // As cores seguem o design da homepage em `../imagens`: branco com azul de destaque.
 
+import { Inter } from 'next/font/google'
+
 export const cores = {
   fundo: '#ffffff',
   fundoSuave: '#f5f8ff',
@@ -33,8 +35,11 @@ export const espaco = { xs: 4, sm: 8, md: 16, lg: 24, xl: 40, xxl: 64 } as const
 
 export const raio = { sm: 6, md: 10, lg: 16, xl: 24, pilula: 999 } as const
 
+// A Inter é baixada junto com o site (sem depender do Google em cada visita) e é fácil de ler no celular.
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
+
 export const fonte = {
-  familia: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+  familia: `${inter.style.fontFamily}, system-ui, -apple-system, "Segoe UI", sans-serif`,
   tamanho: { xs: 12, sm: 14, md: 16, lg: 18, xl: 24, xxl: 32, hero: 52 },
   peso: { normal: 400, medio: 500, forte: 600, negrito: 700, extra: 800 },
   // Títulos grandes ficam mais firmes com as letras um pouco mais juntas.
