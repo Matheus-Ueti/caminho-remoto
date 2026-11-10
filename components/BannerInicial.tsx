@@ -1,21 +1,15 @@
 import type { CSSProperties } from 'react'
 import { BarraDeBusca } from '@/components/BarraDeBusca'
+import { FundoAnimado } from '@/components/FundoAnimado'
 import { SelosDeConfianca } from '@/components/SelosDeConfianca'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { Icone } from '@/components/ui/Icone'
-import {
-  LARGURA_MINIMA_DA_COLUNA,
-  cores,
-  criarGrade,
-  espaco,
-  fonte,
-  gradientes,
-  raio,
-} from '@/lib/tema'
+import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte, raio } from '@/lib/tema'
 
 export function BannerInicial() {
   return (
     <section style={estilos.banner}>
+      <FundoAnimado />
       <AreaDaPagina>
         <div style={estilos.colunas}>
           <div style={estilos.texto}>
@@ -33,7 +27,7 @@ export function BannerInicial() {
 
           {/* MOCK: espaço reservado para a foto do banner, que ainda não temos. */}
           <div style={estilos.espacoDaFoto} aria-hidden="true">
-            <Icone nome="usuario" tamanho={96} cor={cores.primaria} />
+            <Icone nome="usuario" tamanho={96} cor={cores.primariaTexto} />
           </div>
         </div>
       </AreaDaPagina>
@@ -43,8 +37,14 @@ export function BannerInicial() {
 
 /* ===================== ESTILOS ===================== */
 const estilos = {
-  banner: { background: gradientes.banner, padding: `${espaco.xxl}px 0` },
-  colunas: { ...criarGrade(LARGURA_MINIMA_DA_COLUNA), gap: espaco.xl, alignItems: 'center' },
+  // position e overflow: o fundo animado fica preso dentro do banner, atrás do conteúdo.
+  banner: { position: 'relative', overflow: 'hidden', padding: `${espaco.xxl}px 0` },
+  colunas: {
+    ...criarGrade(LARGURA_MINIMA_DA_COLUNA),
+    position: 'relative',
+    gap: espaco.xl,
+    alignItems: 'center',
+  },
   texto: { display: 'flex', flexDirection: 'column', gap: espaco.lg },
   titulo: {
     margin: 0,
@@ -64,8 +64,9 @@ const estilos = {
   espacoDaFoto: {
     minHeight: 360,
     borderRadius: raio.xl,
-    background: `radial-gradient(circle at 70% 40%, ${cores.primariaSuave} 0%, ${cores.fundoSuave} 60%)`,
-    border: `2px dashed ${cores.borda}`,
+    // Branco translúcido, para o espaço da foto aparecer sobre o fundo azul.
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    border: '2px dashed rgba(255, 255, 255, 0.6)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

@@ -21,7 +21,6 @@ export const cores = {
 } as const
 
 export const gradientes = {
-  banner: `linear-gradient(180deg, ${cores.fundoSuave} 0%, ${cores.fundo} 100%)`,
   escuro: `linear-gradient(135deg, ${cores.azulEscuro} 0%, ${cores.primaria} 100%)`,
 } as const
 
