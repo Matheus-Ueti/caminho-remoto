@@ -82,6 +82,8 @@ export interface LinkDeAfiliado {
   afiliadoId: string
   cursoSlug: string
   origem: OrigemDaDivulgacao
+  /** Id do Short no YouTube, quando o link é divulgado num vídeo. Mostra de qual vídeo veio cada clique. */
+  idDoVideo?: string
 }
 
 export interface Clique {

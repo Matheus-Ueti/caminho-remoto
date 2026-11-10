@@ -33,14 +33,26 @@ export function gerarLink(
   afiliadoId: string,
   cursoSlug: string,
   origem: OrigemDaDivulgacao,
+  idDoVideo?: string,
 ): LinkDeAfiliado {
-  const link = { codigo: criarCodigo(), afiliadoId, cursoSlug, origem }
+  const link = { codigo: criarCodigo(), afiliadoId, cursoSlug, origem, idDoVideo }
   dados.links.push(link)
   return link
 }
 
 export function montarLinkCurto(codigo: string): string {
   return `${ENDERECO_DO_SITE}/s/${codigo}`
+}
+
+/** Para onde o link curto leva, com parâmetros UTM (o padrão das ferramentas de análise de tráfego). */
+export function montarDestinoDoLink(link: LinkDeAfiliado): string {
+  const parametros = new URLSearchParams({
+    utm_source: link.origem,
+    utm_medium: 'afiliado',
+    utm_campaign: link.codigo,
+  })
+  if (link.idDoVideo) parametros.set('utm_content', link.idDoVideo)
+  return `/cursos/${link.cursoSlug}?${parametros}`
 }
 
 export function buscarLink(codigo: string): LinkDeAfiliado | undefined {

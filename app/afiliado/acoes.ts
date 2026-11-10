@@ -35,7 +35,9 @@ export async function gerarLinkPeloFormulario(formulario: FormData) {
 
   const cursoSlug = String(formulario.get('curso'))
   const origem = String(formulario.get('origem')) as OrigemDaDivulgacao
-  const link = gerarLink(afiliado.id, cursoSlug, origem)
+  // Campo opcional: vazio vira `undefined`.
+  const idDoVideo = String(formulario.get('video') ?? '').trim() || undefined
+  const link = gerarLink(afiliado.id, cursoSlug, origem, idDoVideo)
   redirect(`/afiliado/novo-link?codigo=${link.codigo}`)
 }
 

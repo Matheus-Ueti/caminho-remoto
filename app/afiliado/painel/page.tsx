@@ -54,7 +54,12 @@ export default async function PaginaPainelAfiliado() {
 
           <div style={estilos.cabecalhoDaSecao}>
             <TituloSecao>Seus links</TituloSecao>
-            <BotaoLink href="/afiliado/novo-link">Criar novo link</BotaoLink>
+            <div style={estilos.linkComBotao}>
+              <BotaoLink href="/afiliado/kit-shorts" variante="contorno">
+                Kit para Shorts
+              </BotaoLink>
+              <BotaoLink href="/afiliado/novo-link">Criar novo link</BotaoLink>
+            </div>
           </div>
           {resumo.links.length === 0 && (
             <p style={estilos.textoSuave}>Você ainda não criou nenhum link.</p>
@@ -66,6 +71,7 @@ export default async function PaginaPainelAfiliado() {
                   <tr>
                     <th style={estilos.celula}>Curso</th>
                     <th style={estilos.celula}>Origem</th>
+                    <th style={estilos.celula}>Vídeo</th>
                     <th style={estilos.celula}>Link</th>
                     <th style={estilos.celula}>Cliques</th>
                     <th style={estilos.celula}>Vendas</th>
@@ -76,6 +82,14 @@ export default async function PaginaPainelAfiliado() {
                     <tr key={link.codigo}>
                       <td style={estilos.celula}>{tituloDoCurso(link.cursoSlug)}</td>
                       <td style={estilos.celula}>{NOMES_DAS_ORIGENS[link.origem]}</td>
+                      <td style={estilos.celula}>
+                        {link.idDoVideo && (
+                          <a href={`https://www.youtube.com/shorts/${link.idDoVideo}`}>
+                            {link.idDoVideo}
+                          </a>
+                        )}
+                        {!link.idDoVideo && '—'}
+                      </td>
                       <td style={estilos.celula}>
                         <div style={estilos.linkComBotao}>
                           <code>{montarLinkCurto(link.codigo)}</code>

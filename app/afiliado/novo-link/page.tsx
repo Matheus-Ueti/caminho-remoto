@@ -6,6 +6,7 @@ import { BotaoCopiar } from '@/components/BotaoCopiar'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { Botao } from '@/components/ui/Botao'
 import { BotaoLink } from '@/components/ui/BotaoLink'
+import { Campo } from '@/components/ui/Campo'
 import { CampoDeEscolha } from '@/components/ui/CampoDeEscolha'
 import { Cartao } from '@/components/ui/Cartao'
 import { TituloPagina } from '@/components/ui/TituloPagina'
@@ -58,6 +59,10 @@ export default async function PaginaNovoLink({ searchParams }: PaginaNovoLinkPro
             <form action={gerarLinkPeloFormulario} style={estilos.formulario}>
               <CampoDeEscolha id="curso" rotulo="Curso" opcoes={opcoesDeCurso} />
               <CampoDeEscolha id="origem" rotulo="Onde você vai divulgar" opcoes={opcoesDeOrigem} />
+              <Campo
+                id="video"
+                rotulo="Id do Short (opcional): o código depois de /shorts/ no endereço do vídeo"
+              />
               <Botao tamanho="grande">Gerar link</Botao>
             </form>
           </Cartao>
