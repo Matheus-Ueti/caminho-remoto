@@ -68,15 +68,22 @@ por dentro, mas nós só o configuramos, sem escrever código nele.
   (em português). Depois do login, a pessoa volta para `/aluno` e o cabeçalho mostra "Olá, Nome · Sair".
   "Sair" encerra o login na API e no Keycloak. As rotas `/cadastro` e `/entrar` do site só redirecionam
   para o Keycloak.
-- **Todo o resto: mockado.** Vagas, cursos, área do aluno, perfil, certificados, checkout e afiliado
+- **Vagas: de verdade**, vindas da API (que as busca no Jooble). A página da vaga mostra o resumo e o
+  botão "Candidatar-se no site da vaga". Ainda não há ligação vaga → competências → curso.
+- **Afiliados: funcionando em memória** (`data/afiliados.ts`, some ao reiniciar o servidor do front).
+  Cadastro em `/afiliado/cadastro` (o afiliado fica num cookie, sem usar o login), painel, geração de
+  links curtos `/s/[codigo]` (contam o clique e guardam a indicação por 30 dias; o último clique leva
+  a venda) e compra simulada no checkout. Percentuais e prazo ficam em `lib/configuracaoDoAfiliado.ts`
+  e são **valores de exemplo**.
+- **Todo o resto: mockado.** Cursos, área do aluno, perfil, certificados e checkout
   ainda usam dados falsos de `data/`. A área do aluno ainda mostra a "Maria Exemplo" para qualquer pessoa.
-- **Páginas ainda abertas:** `/aluno`, `/perfil` e `/afiliado` abrem mesmo sem login.
+- **Páginas ainda abertas:** `/aluno` e `/perfil` abrem mesmo sem login.
 
 **Front (`CaminhoRemoto/`):**
 
 - **Estrutura:** no padrão do repositório `websitemundo365`, com as pastas `app/`, `components/`,
   `data/`, `lib/`, `types/` e `public/`.
-- **Dados:** componentes e páginas chamam funções em `lib/`. As de vagas, cursos e aluno devolvem
+- **Dados:** componentes e páginas chamam funções em `lib/`. A de vagas chama a API; as de cursos e aluno devolvem
   mocks de `data/`. A de autenticação (`lib/servicoAutenticacao.ts`) tem os endereços de entrar,
   cadastrar e sair, e pergunta à API quem está logado.
 - **Endereço da API:** variável `NEXT_PUBLIC_API_URL` no `.env.local` (modelo em `.env.example`).
@@ -95,6 +102,9 @@ por dentro, mas nós só o configuramos, sem escrever código nele.
   (cookie `JSESSIONID`, `SameSite=Lax`). Os tokens do Keycloak nunca chegam ao navegador.
 - **Rotas:** `GET /oauth2/authorization/keycloak` (entrar; `?cadastro=true` para criar conta),
   `GET /auth/eu` (quem está logado) e `GET /auth/sair`.
+- **Vagas:** `GET /vagas` e `GET /vagas/{id}` são públicas. As vagas vêm do Jooble (agregador de vagas),
+  buscadas a cada 6 h e guardadas na memória. Precisa da chave na variável `JOOBLE_API_KEY`.
+  A candidatura acontece no site original da vaga.
 - **Banco:** a API não guarda nada por enquanto. As contas ficam no Keycloak e **não somem** ao reiniciar.
 - **CORS:** só o front em `http://localhost:3000` pode chamar a API.
 - **Comandos (na pasta da API):** `./mvnw spring-boot:run` e `./mvnw test`. Os testes não precisam
