@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { CSSProperties } from 'react'
 import { cores, fonte } from '@/lib/tema'
 
 // Alturas das barras do gráfico na tela do notebook, subindo da esquerda para a direita.
@@ -10,59 +10,10 @@ const BARRAS = [
 ]
 const BASE_DAS_BARRAS = 246
 
-type CartaoFlutuanteProps = {
-  x: number
-  y: number
-  titulo: string
-  texto: string
-  corDoIcone: string
-  fundoDoIcone: string
-  desenhoDoIcone: ReactNode
-}
-
-// Cartãozinho branco que "flutua" sobre o notebook (ex.: "Vaga remota").
-function CartaoFlutuante({
-  x,
-  y,
-  titulo,
-  texto,
-  corDoIcone,
-  fundoDoIcone,
-  desenhoDoIcone,
-}: CartaoFlutuanteProps) {
-  return (
-    <g transform={`translate(${x} ${y})`} filter="url(#sombra-do-cartao)">
-      <rect width={176} height={60} rx={14} fill={cores.superficie} />
-      <circle cx={32} cy={30} r={18} fill={fundoDoIcone} />
-      <g stroke={corDoIcone} strokeWidth={2.2} fill="none" strokeLinecap="round">
-        {desenhoDoIcone}
-      </g>
-      <text x={60} y={27} fontSize={14} fontWeight={fonte.peso.negrito} fill={cores.texto}>
-        {titulo}
-      </text>
-      <text x={60} y={45} fontSize={12} fill={cores.textoSuave}>
-        {texto}
-      </text>
-    </g>
-  )
-}
-
-/** Desenho do banner: notebook com um gráfico subindo, uma vaga e um certificado. */
+/** Desenho do banner: notebook com um gráfico subindo. */
 export function IlustracaoDoBanner() {
   return (
     <svg viewBox="0 0 480 380" style={estilos.desenho} aria-hidden="true">
-      <defs>
-        <filter id="sombra-do-cartao" x="-20%" y="-20%" width="140%" height="160%">
-          <feDropShadow
-            dx={0}
-            dy={8}
-            stdDeviation={10}
-            floodColor={cores.azulEscuro}
-            floodOpacity={0.18}
-          />
-        </filter>
-      </defs>
-
       {/* Notebook: tela, moldura e base */}
       <rect x={70} y={64} width={340} height={224} rx={18} fill={cores.azulEscuro} />
       <rect x={84} y={78} width={312} height={196} rx={10} fill={cores.superficie} />
@@ -99,35 +50,6 @@ export function IlustracaoDoBanner() {
         strokeWidth={4}
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
-
-      <CartaoFlutuante
-        x={8}
-        y={20}
-        titulo="Vaga remota"
-        texto="Trabalhe de casa"
-        corDoIcone={cores.primaria}
-        fundoDoIcone={cores.primariaSuave}
-        desenhoDoIcone={
-          <>
-            <rect x={23} y={25} width={18} height={13} rx={2} />
-            <path d="M28 25 V22 H36 V25" />
-          </>
-        }
-      />
-      <CartaoFlutuante
-        x={296}
-        y={240}
-        titulo="Certificado"
-        texto="Curso concluído"
-        corDoIcone={cores.sucesso}
-        fundoDoIcone={cores.sucessoSuave}
-        desenhoDoIcone={
-          <>
-            <circle cx={32} cy={27} r={6} />
-            <path d="M28 32 L26 40 L32 37 L38 40 L36 32" />
-          </>
-        }
       />
     </svg>
   )

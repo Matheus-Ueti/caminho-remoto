@@ -2,7 +2,6 @@ import type { CSSProperties } from 'react'
 import { BarraDeBusca } from '@/components/BarraDeBusca'
 import { FundoAnimado } from '@/components/FundoAnimado'
 import { IlustracaoDoBanner } from '@/components/IlustracaoDoBanner'
-import { SelosDeConfianca } from '@/components/SelosDeConfianca'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { LARGURA_MINIMA_DA_COLUNA, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
@@ -22,7 +21,6 @@ export function BannerInicial() {
               destacar.
             </p>
             <BarraDeBusca />
-            <SelosDeConfianca />
           </div>
 
           <div style={estilos.espacoDaIlustracao}>
