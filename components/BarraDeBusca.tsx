@@ -2,21 +2,28 @@ import type { CSSProperties } from 'react'
 import { Icone } from '@/components/ui/Icone'
 import { cores, espaco, fonte, raio, sombra } from '@/lib/tema'
 
-// MOCK: por enquanto a busca é só visual. Filtrar as vagas ainda não foi pedido.
-export function BarraDeBusca() {
+type BarraDeBuscaProps = {
+  /** Texto já buscado, para continuar aparecendo no campo. */
+  valorInicial?: string
+}
+
+// Formulário comum (GET): leva para `/vagas?busca=...` sem precisar de JavaScript.
+export function BarraDeBusca({ valorInicial }: BarraDeBuscaProps) {
   return (
-    <div role="search" style={estilos.barra}>
+    <form role="search" action="/vagas" style={estilos.barra}>
       <Icone nome="busca" tamanho={20} cor={cores.textoSuave} />
       <input
         type="search"
+        name="busca"
+        defaultValue={valorInicial}
         aria-label="Buscar vagas"
         placeholder="Buscar por cargo, área ou tecnologia..."
         style={estilos.campo}
       />
-      <button type="button" style={estilos.botao}>
+      <button type="submit" style={estilos.botao}>
         Buscar
       </button>
-    </div>
+    </form>
   )
 }
 

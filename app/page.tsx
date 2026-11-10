@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { AvisoSemVagas } from '@/components/AvisoSemVagas'
 import { BannerInicial } from '@/components/BannerInicial'
@@ -28,7 +29,12 @@ export default async function PaginaInicial() {
       <AreaDaPagina>
         <div style={estilos.destaques}>
           <section id="vagas" style={estilos.coluna}>
-            <h2 style={estilos.titulo}>Vagas em destaque</h2>
+            <div style={estilos.cabecalhoDaSecao}>
+              <h2 style={estilos.titulo}>Vagas em destaque</h2>
+              <Link href="/vagas" style={estilos.verTodas}>
+                Ver todas as vagas →
+              </Link>
+            </div>
             {vagas.length === 0 && <AvisoSemVagas />}
             {vagas.map((vaga) => (
               <CartaoVaga key={vaga.id} vaga={vaga} />
@@ -66,5 +72,18 @@ const estilos = {
     fontWeight: fonte.peso.extra,
     letterSpacing: fonte.espacamentoDosTitulos,
     color: cores.texto,
+  },
+  cabecalhoDaSecao: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    gap: espaco.sm,
+  },
+  verTodas: {
+    color: cores.primaria,
+    fontSize: fonte.tamanho.sm,
+    fontWeight: fonte.peso.forte,
+    textDecoration: 'none',
   },
 } satisfies Record<string, CSSProperties>

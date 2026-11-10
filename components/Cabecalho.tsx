@@ -6,7 +6,7 @@ import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
 import { cores, espaco, fonte } from '@/lib/tema'
 
 const linksDoMenu = [
-  { endereco: '/#vagas', texto: 'Vagas' },
+  { endereco: '/vagas', texto: 'Vagas' },
   { endereco: '/#cursos', texto: 'Cursos' },
 ]
 

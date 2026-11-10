@@ -3,10 +3,12 @@
 import { ENDERECO_DA_API } from '@/lib/servicoAutenticacao'
 import type { Vaga } from '@/types'
 
-export async function buscarVagas(): Promise<Vaga[]> {
+/** Com `busca`, devolve só as vagas com esse texto no título (o filtro é feito na API). */
+export async function buscarVagas(busca?: string): Promise<Vaga[]> {
+  const filtro = busca ? `?busca=${encodeURIComponent(busca)}` : ''
   try {
     // `no-store`: busca sempre na API, para o site não guardar vagas antigas.
-    const resposta = await fetch(`${ENDERECO_DA_API}/vagas`, { cache: 'no-store' })
+    const resposta = await fetch(`${ENDERECO_DA_API}/vagas${filtro}`, { cache: 'no-store' })
     if (!resposta.ok) return []
     return await resposta.json()
   } catch {

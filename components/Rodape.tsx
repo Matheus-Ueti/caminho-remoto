@@ -7,7 +7,7 @@ import type { NomeDoIcone } from '@/components/ui/Icone'
 import { cores, espaco, fonte } from '@/lib/tema'
 
 const linksQueExistem = [
-  { endereco: '/#vagas', texto: 'Vagas' },
+  { endereco: '/vagas', texto: 'Vagas' },
   { endereco: '/#cursos', texto: 'Cursos' },
 ]
 
