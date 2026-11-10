@@ -75,6 +75,10 @@ por dentro, mas nós só o configuramos, sem escrever código nele.
   links curtos `/s/[codigo]` (contam o clique e guardam a indicação por 30 dias; o último clique leva
   a venda) e compra simulada no checkout. Percentuais e prazo ficam em `lib/configuracaoDoAfiliado.ts`
   e são **valores de exemplo**.
+- **YouTube Shorts:** seção "Dicas em vídeo" na home, no curso e na vaga (só carrega o player depois
+  do clique, via youtube-nocookie). Os vídeos ficam em `data/videos.ts`, hoje com **ids de exemplo**.
+  Links de afiliado aceitam o id do Short; o link curto leva ao curso com parâmetros UTM e o painel
+  mostra o vídeo de cada link. Kit com modelos de texto em `/afiliado/kit-shorts`.
 - **Todo o resto: mockado.** Cursos, área do aluno, perfil, certificados e checkout
   ainda usam dados falsos de `data/`. A área do aluno ainda mostra a "Maria Exemplo" para qualquer pessoa.
 - **Páginas ainda abertas:** `/aluno` e `/perfil` abrem mesmo sem login.
