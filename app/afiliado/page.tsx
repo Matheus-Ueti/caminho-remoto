@@ -1,55 +1,67 @@
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
+import { BotaoLink } from '@/components/ui/BotaoLink'
 import { Cartao } from '@/components/ui/Cartao'
 import { TituloPagina } from '@/components/ui/TituloPagina'
-import { TituloSecao } from '@/components/ui/TituloSecao'
-import { buscarResumoDoAfiliado } from '@/lib/servicoAluno'
-import { LARGURA_MINIMA_DO_INDICADOR, cores, criarGrade, espaco, fonte } from '@/lib/tema'
+import {
+  DIAS_DE_ATRIBUICAO,
+  PERCENTUAL_DA_PLATAFORMA,
+  PERCENTUAL_DO_AFILIADO,
+} from '@/lib/configuracaoDoAfiliado'
+import { LARGURA_MINIMA_DO_PASSO, cores, criarGrade, espaco, fonte } from '@/lib/tema'
 
-export const metadata: Metadata = { title: 'Afiliado' }
+export const metadata: Metadata = { title: 'Seja afiliado' }
 
-export default async function PaginaAfiliado() {
-  const resumo = await buscarResumoDoAfiliado()
-  const taxaDeConversao = ((resumo.vendas / resumo.cliques) * 100).toFixed(1).replace('.', ',')
+const PASSOS = [
+  {
+    titulo: '1. Cadastre-se',
+    texto: 'Informe seu nome e e-mail. Não há custo para participar.',
+  },
+  {
+    titulo: '2. Crie seus links',
+    texto: 'Escolha um curso e onde vai divulgar: YouTube Shorts, Instagram, WhatsApp ou outro.',
+  },
+  {
+    titulo: '3. Acompanhe no painel',
+    texto: 'Veja os cliques, as vendas e as comissões de cada link.',
+  },
+]
 
-  const indicadores = [
-    { rotulo: 'Cliques no seu link', valor: String(resumo.cliques) },
-    { rotulo: 'Vendas', valor: String(resumo.vendas) },
-    { rotulo: 'Conversão', valor: `${taxaDeConversao}%` },
-  ]
-
+export default function PaginaSejaAfiliado() {
   return (
     <main>
       <AreaDaPagina>
         <div style={estilos.pagina}>
           <TituloPagina
-            titulo="Programa de afiliados"
-            descricao="Divulgue os cursos e acompanhe o resultado do seu link."
+            titulo="Seja afiliado"
+            descricao="Indique cursos do Caminho Remoto e receba uma comissão por cada venda feita pelo seu link."
           />
 
-          <Cartao>
-            <strong>Seu link de divulgação</strong>
-            <code style={estilos.link}>{resumo.link}</code>
-          </Cartao>
-
-          <TituloSecao>Resultados</TituloSecao>
           <div style={estilos.grade}>
-            {indicadores.map((indicador) => (
-              <Cartao key={indicador.rotulo}>
-                <span style={estilos.textoSuave}>{indicador.rotulo}</span>
-                <span style={estilos.valor}>{indicador.valor}</span>
+            {PASSOS.map((passo) => (
+              <Cartao key={passo.titulo}>
+                <strong>{passo.titulo}</strong>
+                <span style={estilos.texto}>{passo.texto}</span>
               </Cartao>
             ))}
           </div>
 
-          {/* DECISÃO EM ABERTO: percentuais de comissão. Por isso nenhum valor em reais aparece. */}
           <Cartao>
-            <strong>Comissão</strong>
-            <span style={estilos.textoSuave}>
-              Os percentuais de comissão ainda serão definidos. Esta tela é só uma demonstração.
+            <strong>Como funciona a comissão</strong>
+            <span style={estilos.texto}>
+              Valores de exemplo, ainda em definição: {PERCENTUAL_DO_AFILIADO}% de cada venda para
+              quem indicou e {PERCENTUAL_DA_PLATAFORMA}% de taxa da plataforma. A venda conta para
+              você se a pessoa comprar em até {DIAS_DE_ATRIBUICAO} dias depois de clicar no seu
+              link. Se ela clicar no link de outra pessoa depois, o último link leva a venda.
             </span>
           </Cartao>
+
+          <div>
+            <BotaoLink href="/afiliado/cadastro" tamanho="grande">
+              Quero ser afiliado
+            </BotaoLink>
+          </div>
         </div>
       </AreaDaPagina>
     </main>
@@ -59,14 +71,6 @@ export default async function PaginaAfiliado() {
 /* ===================== ESTILOS ===================== */
 const estilos = {
   pagina: { display: 'flex', flexDirection: 'column', gap: espaco.lg, marginTop: espaco.xl },
-  grade: criarGrade(LARGURA_MINIMA_DO_INDICADOR),
-  link: {
-    padding: `${espaco.sm}px ${espaco.md}px`,
-    backgroundColor: cores.neutroSuave,
-    borderRadius: 6,
-    fontSize: fonte.tamanho.sm,
-    overflowWrap: 'anywhere',
-  },
-  textoSuave: { fontSize: fonte.tamanho.sm, color: cores.textoSuave },
-  valor: { fontSize: fonte.tamanho.xxl, fontWeight: fonte.peso.negrito },
+  grade: criarGrade(LARGURA_MINIMA_DO_PASSO),
+  texto: { fontSize: fonte.tamanho.sm, color: cores.textoSuave, lineHeight: 1.6 },
 } satisfies Record<string, CSSProperties>

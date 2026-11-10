@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
+import { simularCompra } from '@/app/afiliado/acoes'
 import { AreaDaPagina } from '@/components/ui/AreaDaPagina'
-import { BotaoLink } from '@/components/ui/BotaoLink'
+import { Botao } from '@/components/ui/Botao'
 import { Campo } from '@/components/ui/Campo'
 import { Cartao } from '@/components/ui/Cartao'
 import { TituloPagina } from '@/components/ui/TituloPagina'
@@ -36,22 +37,23 @@ export default async function PaginaCheckout({ params }: PaginaCheckoutProps) {
           />
           <div style={estilos.colunas}>
             <Cartao>
-              <strong>Seus dados</strong>
-              <Campo id="nome" rotulo="Nome completo" autoPreenchimento="name" />
-              <Campo id="email" rotulo="E-mail" tipo="email" autoPreenchimento="email" />
-              {/* DECISÃO EM ABERTO: meio de pagamento. Pix e cartão abaixo são só exemplo visual. */}
-              <strong>Forma de pagamento</strong>
-              <div style={estilos.opcoes}>
-                <label style={estilos.opcao}>
-                  <input type="radio" name="pagamento" defaultChecked /> Pix
-                </label>
-                <label style={estilos.opcao}>
-                  <input type="radio" name="pagamento" /> Cartão de crédito
-                </label>
-              </div>
-              <BotaoLink href="/aluno" tamanho="grande">
-                Confirmar compra
-              </BotaoLink>
+              {/* A compra é simulada: registra a venda e a comissão de quem indicou, se houver. */}
+              <form action={simularCompra.bind(null, curso.slug)} style={estilos.formulario}>
+                <strong>Seus dados</strong>
+                <Campo id="nome" rotulo="Nome completo" autoPreenchimento="name" />
+                <Campo id="email" rotulo="E-mail" tipo="email" autoPreenchimento="email" />
+                {/* DECISÃO EM ABERTO: meio de pagamento. Pix e cartão abaixo são só exemplo visual. */}
+                <strong>Forma de pagamento</strong>
+                <div style={estilos.opcoes}>
+                  <label style={estilos.opcao}>
+                    <input type="radio" name="pagamento" defaultChecked /> Pix
+                  </label>
+                  <label style={estilos.opcao}>
+                    <input type="radio" name="pagamento" /> Cartão de crédito
+                  </label>
+                </div>
+                <Botao tamanho="grande">Confirmar compra</Botao>
+              </form>
             </Cartao>
 
             <Cartao>
@@ -74,6 +76,7 @@ export default async function PaginaCheckout({ params }: PaginaCheckoutProps) {
 const estilos = {
   pagina: { display: 'flex', flexDirection: 'column', gap: espaco.lg, marginTop: espaco.xl },
   colunas: { ...criarGrade(LARGURA_MINIMA_DA_COLUNA), alignItems: 'start' },
+  formulario: { display: 'flex', flexDirection: 'column', gap: espaco.md },
   opcoes: { display: 'flex', flexDirection: 'column', gap: espaco.sm },
   opcao: { display: 'flex', alignItems: 'center', gap: espaco.sm, fontSize: fonte.tamanho.md },
   resumo: { margin: 0, color: cores.textoSuave, fontSize: fonte.tamanho.sm },

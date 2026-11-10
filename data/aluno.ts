@@ -1,5 +1,5 @@
 // MOCK: dados falsos da pessoa "logada". Ainda não existe login de verdade.
-import type { Aluno, ResumoDoAfiliado } from '@/types'
+import type { Aluno } from '@/types'
 
 export const alunoMock: Aluno = {
   nome: 'Maria Exemplo',
@@ -15,12 +15,4 @@ export const alunoMock: Aluno = {
       emitidoEm: '2026-10-21',
     },
   ],
-}
-
-// MOCK: números inventados.
-// DECISÃO EM ABERTO: percentuais de comissão do afiliado. Por isso não aparecem aqui.
-export const afiliadoMock: ResumoDoAfiliado = {
-  link: 'https://caminhoremoto.com.br/r/maria-exemplo',
-  cliques: 128,
-  vendas: 6,
 }

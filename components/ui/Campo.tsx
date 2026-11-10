@@ -7,6 +7,7 @@ type CampoProps = {
   tipo?: 'text' | 'email' | 'password' | 'tel'
   textoDeExemplo?: string
   autoPreenchimento?: string
+  ehObrigatorio?: boolean
 }
 
 export function Campo({
@@ -15,6 +16,7 @@ export function Campo({
   tipo = 'text',
   textoDeExemplo,
   autoPreenchimento,
+  ehObrigatorio = false,
 }: CampoProps) {
   return (
     <div style={estilos.grupo}>
@@ -27,6 +29,7 @@ export function Campo({
         type={tipo}
         placeholder={textoDeExemplo}
         autoComplete={autoPreenchimento}
+        required={ehObrigatorio}
         style={estilos.campo}
       />
     </div>
@@ -34,7 +37,8 @@ export function Campo({
 }
 
 /* ===================== ESTILOS ===================== */
-const estilos = {
+// Exportado para o `CampoDeEscolha` ter o mesmo visual.
+export const estilos = {
   grupo: { display: 'flex', flexDirection: 'column', gap: espaco.xs },
   rotulo: { fontSize: fonte.tamanho.sm, fontWeight: fonte.peso.medio, color: cores.texto },
   campo: {

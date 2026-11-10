@@ -54,10 +54,62 @@ export interface Aluno {
   certificados: Certificado[]
 }
 
-export interface ResumoDoAfiliado {
-  link: string
+/* ===================== AFILIADOS ===================== */
+
+export type OrigemDaDivulgacao = 'youtube_shorts' | 'instagram' | 'whatsapp' | 'outro'
+
+export type StatusDaComissao = 'pendente' | 'aprovada' | 'paga'
+
+export interface Afiliado {
+  id: string
+  nome: string
+  email: string
+}
+
+export interface LinkDeAfiliado {
+  /** Código curto do link: o endereço fica `/s/[codigo]`. */
+  codigo: string
+  afiliadoId: string
+  cursoSlug: string
+  origem: OrigemDaDivulgacao
+}
+
+export interface Clique {
+  codigoDoLink: string
+  criadoEm: string
+}
+
+/** Venda simulada: ainda não existe pagamento de verdade. */
+export interface Venda {
+  id: string
+  cursoSlug: string
+  valor: number
+  /** Link que levou a pessoa a comprar. Vazio quando a venda não veio de afiliado. */
+  codigoDoLink?: string
+  criadaEm: string
+}
+
+export interface Comissao {
+  vendaId: string
+  afiliadoId: string
+  valor: number
+  status: StatusDaComissao
+}
+
+export interface ResultadoDoLink {
+  link: LinkDeAfiliado
   cliques: number
   vendas: number
+}
+
+export interface ResumoDoAfiliado {
+  afiliado: Afiliado
+  cliques: number
+  vendas: number
+  comissaoPendente: number
+  comissaoAprovada: number
+  links: ResultadoDoLink[]
+  comissoes: Comissao[]
 }
 
 export interface UsuarioLogado {

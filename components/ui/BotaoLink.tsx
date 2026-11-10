@@ -2,8 +2,16 @@ import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 import { cores, fonte, raio, sombra } from '@/lib/tema'
 
-type VarianteDoBotao = 'primario' | 'secundario' | 'contorno' | 'branco'
-type TamanhoDoBotao = 'normal' | 'grande'
+export type VarianteDoBotao = 'primario' | 'secundario' | 'contorno' | 'branco'
+export type TamanhoDoBotao = 'normal' | 'grande'
+
+/** Mesmo visual para links e botões de formulário (veja `Botao`). */
+export function montarEstiloDoBotao(
+  variante: VarianteDoBotao,
+  tamanho: TamanhoDoBotao,
+): CSSProperties {
+  return { ...estilos.base, ...estilos[variante], ...estilos[tamanho] }
+}
 
 type BotaoLinkProps = {
   href: string
@@ -18,10 +26,8 @@ export function BotaoLink({
   tamanho = 'normal',
   children,
 }: BotaoLinkProps) {
-  const estiloDoBotao = { ...estilos.base, ...estilos[variante], ...estilos[tamanho] }
-
   return (
-    <Link href={href} style={estiloDoBotao}>
+    <Link href={href} style={montarEstiloDoBotao(variante, tamanho)}>
       {children}
     </Link>
   )
