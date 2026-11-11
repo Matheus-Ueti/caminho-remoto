@@ -68,8 +68,11 @@ por dentro, mas nós só o configuramos, sem escrever código nele.
   (em português). Depois do login, a pessoa volta para `/aluno` e o cabeçalho mostra "Olá, Nome · Sair".
   "Sair" encerra o login na API e no Keycloak. As rotas `/cadastro` e `/entrar` do site só redirecionam
   para o Keycloak.
-- **Vagas: de verdade**, vindas da API (que as busca no Jooble). A página da vaga mostra o resumo e o
-  botão "Candidatar-se no site da vaga". Ainda não há ligação vaga → competências → curso.
+- **Vagas: de verdade**, vindas da API, que busca cerca de 200 vagas no Jooble Brasil.
+  - A Home mostra 6 vagas.
+  - `/vagas` lista todas, com busca pelo título e 20 por página. A barra de busca do banner também leva para lá.
+  - A página da vaga mostra o resumo e o botão "Candidatar-se no site da vaga".
+  - Ainda não há ligação vaga → competências → curso.
 - **Afiliados: funcionando em memória** (`data/afiliados.ts`, some ao reiniciar o servidor do front).
   Cadastro em `/afiliado/cadastro` (o afiliado fica num cookie, sem usar o login), painel, geração de
   links curtos `/s/[codigo]` (contam o clique e guardam a indicação por 30 dias; o último clique leva
@@ -91,8 +94,10 @@ por dentro, mas nós só o configuramos, sem escrever código nele.
   mocks de `data/`. A de autenticação (`lib/servicoAutenticacao.ts`) tem os endereços de entrar,
   cadastrar e sair, e pergunta à API quem está logado.
 - **Endereço da API:** variável `NEXT_PUBLIC_API_URL` no `.env.local` (modelo em `.env.example`).
-- **Design:** homepage no estilo da imagem em `ProjetoClaudio/imagens/`, com azul de destaque. Cores,
-  espaços e fontes ficam em `lib/tema.ts`; ícones são SVGs próprios em `components/ui/`.
+- **Design:**
+  - Homepage no estilo da imagem em `ProjetoClaudio/imagens/`, com azul de destaque e fonte Inter.
+  - O banner tem fundo animado em faixas e uma ilustração de notebook feita em SVG, no lugar de foto.
+  - Cores, espaços e fontes ficam em `lib/tema.ts`. Os ícones são SVGs próprios em `components/ui/`.
 - **Regra de estilo:** não existe CSS, Tailwind nem `className`. Todo estilo fica dentro do `.tsx`, em
   um objeto `estilos` no **final do arquivo**. O ESLint bloqueia `className`.
 - **Comandos (na pasta do front):** `npm run dev`, `build`, `typecheck`, `lint` e `format`.
@@ -106,10 +111,16 @@ por dentro, mas nós só o configuramos, sem escrever código nele.
   (cookie `JSESSIONID`, `SameSite=Lax`). Os tokens do Keycloak nunca chegam ao navegador.
 - **Rotas:** `GET /oauth2/authorization/keycloak` (entrar; `?cadastro=true` para criar conta),
   `GET /auth/eu` (quem está logado) e `GET /auth/sair`.
-- **Vagas:** `GET /vagas` e `GET /vagas/{id}` são públicas. As vagas vêm do Jooble (agregador de vagas),
-  buscadas a cada 6 h e guardadas na memória. Precisa da chave na variável `JOOBLE_API_KEY`.
-  A candidatura acontece no site original da vaga.
-- **Banco:** a API não guarda nada por enquanto. As contas ficam no Keycloak e **não somem** ao reiniciar.
+- **Vagas:** `GET /vagas` (com `?busca=` pelo título) e `GET /vagas/{id}` são públicas.
+  - **Origem:** Jooble Brasil (`br.jooble.org`), agregador de vagas. Busca "home office" e
+    "trabalho remoto", 5 páginas de cada, sem repetidas, o que dá cerca de 200 vagas.
+  - **Quando e onde:** busca a cada 6 h e guarda na memória.
+  - **Chave:** precisa ser do Jooble Brasil, na variável `JOOBLE_API_KEY`. A chave do Jooble global só traz
+    vagas dos EUA.
+  - **Candidatura:** acontece no site original da vaga.
+  - **Avast:** com ele, a API precisa subir com
+    `-Dspring-boot.run.jvmArguments="-Djavax.net.ssl.trustStoreType=Windows-ROOT"`.
+- **Banco:** ainda não existe. As vagas ficam na memória da API. As contas ficam no Keycloak e **não somem** ao reiniciar.
 - **CORS:** só o front em `http://localhost:3000` pode chamar a API.
 - **Comandos (na pasta da API):** `./mvnw spring-boot:run` e `./mvnw test`. Os testes não precisam
   do Keycloak rodando.
@@ -130,7 +141,8 @@ O antivírus Avast inspeciona HTTPS, então o Maven precisa de
 **Para rodar tudo**, cada um num terminal e nesta ordem:
 
 1. `CaminhoRemotoAPI\keycloak\iniciar-keycloak.cmd` (Keycloak, porta 8180)
-2. `./mvnw spring-boot:run` na pasta da API (porta 8080)
+2. `./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Djavax.net.ssl.trustStoreType=Windows-ROOT"`
+   na pasta da API (porta 8080). A opção é por causa do Avast.
 3. `npm run dev` na pasta do front (porta 3000)
 
 Depois abra http://localhost:3000. A API não tem páginas: abrir a porta 8080 direto mostra 401, e isso é normal.
@@ -140,10 +152,11 @@ Mais detalhes nos READMEs de cada pasta.
 ## Próximos passos
 
 1. Decidir as profissões do MVP, o nome final do projeto, o banco de dados definitivo e se o Keycloak fica.
-2. Proteger `/aluno`, `/perfil` e `/afiliado` para só abrirem com login, e mostrar os dados de quem está logado.
-3. Deixar a tela de login do Keycloak com o visual do site.
-4. Trocar os outros mocks (vagas, cursos, matrículas) por rotas reais na API, uma de cada vez.
-5. Decidir hospedagem, meio de pagamento e servidor de e-mail.
+2. Proteger `/aluno` e `/perfil` para só abrirem com login, e mostrar os dados de quem está logado.
+3. Levar os afiliados para a API (em discussão: guardar em banco H2 e reconhecer o afiliado pelo login do Keycloak).
+4. Deixar a tela de login do Keycloak com o visual do site.
+5. Trocar os outros mocks (cursos, matrículas) por rotas reais na API, uma de cada vez.
+6. Decidir hospedagem, meio de pagamento e servidor de e-mail.
 
 ## Como trabalhar neste projeto
 

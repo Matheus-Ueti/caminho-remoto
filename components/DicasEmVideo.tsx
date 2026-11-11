@@ -3,8 +3,8 @@ import { PlayerDeShort } from '@/components/PlayerDeShort'
 import { cores, espaco, fonte } from '@/lib/tema'
 import type { VideoShort } from '@/types'
 
-// Largura de cada vídeo: cabem uns 6 por linha no computador e 2 no celular.
-const LARGURA_MINIMA_DO_VIDEO = 150
+// Largura mínima de cada vídeo: 3 por linha no computador e 1 no celular.
+const LARGURA_MINIMA_DO_VIDEO = 340
 
 type DicasEmVideoProps = {
   videos: VideoShort[]
@@ -38,10 +38,10 @@ const estilos = {
     letterSpacing: fonte.espacamentoDosTitulos,
     color: cores.texto,
   },
-  // auto-fill (e não auto-fit): com poucos vídeos, eles continuam pequenos em vez de esticar.
+  // auto-fill (e não auto-fit): com poucos vídeos, eles não esticam além do tamanho dos demais.
   grade: {
     display: 'grid',
-    gridTemplateColumns: `repeat(auto-fill, minmax(${LARGURA_MINIMA_DO_VIDEO}px, 1fr))`,
+    gridTemplateColumns: `repeat(auto-fill, minmax(min(${LARGURA_MINIMA_DO_VIDEO}px, 100%), 1fr))`,
     gap: espaco.md,
   },
 } satisfies Record<string, CSSProperties>

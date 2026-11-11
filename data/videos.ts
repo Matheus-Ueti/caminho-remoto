@@ -1,24 +1,27 @@
-// MOCK: vídeos de EXEMPLO. Os ids abaixo não são de vídeos reais: troque pelos ids dos seus Shorts.
+// MOCK: vídeos de EXEMPLO, ainda não gravados (emBreve). Ao ter um Short real, troque o id e apague o emBreve.
 // O id é o código depois de `/shorts/` no endereço (ex.: youtube.com/shorts/ABC123 → 'ABC123').
 import type { VideoShort } from '@/types'
 
 export const videosMock: VideoShort[] = [
   {
     idDoYoutube: 'EXEMPLO0001',
-    titulo: 'Exemplo: o que faz um atendente remoto',
+    titulo: 'Como funciona um atendimento remoto?',
     area: 'Atendimento',
     cursoSlug: 'atendimento-ao-cliente-remoto',
+    emBreve: true,
   },
   {
     idDoYoutube: 'EXEMPLO0002',
-    titulo: 'Exemplo: rotina de um assistente administrativo em casa',
+    titulo: 'Como organizar uma rotina de trabalho em casa?',
     area: 'Administrativo',
     cursoSlug: 'assistente-administrativo-digital',
+    emBreve: true,
   },
   {
     idDoYoutube: 'EXEMPLO0003',
-    titulo: 'Exemplo: por onde começar a estudar dados',
+    titulo: 'Por onde começar a estudar análise de dados?',
     area: 'Dados',
     cursoSlug: 'dados-para-iniciantes',
+    emBreve: true,
   },
 ]

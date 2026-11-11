@@ -62,6 +62,8 @@ export interface VideoShort {
   area: string
   cursoSlug?: string
   vagaId?: string
+  /** Verdadeiro enquanto o vídeo não foi gravado: o cartão mostra "Em breve" e não toca nada. */
+  emBreve?: boolean
 }
 
 /* ===================== AFILIADOS ===================== */

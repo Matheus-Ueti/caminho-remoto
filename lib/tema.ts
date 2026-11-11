@@ -5,16 +5,16 @@ import { Inter } from 'next/font/google'
 
 export const cores = {
   fundo: '#ffffff',
-  fundoSuave: '#f5f8ff',
+  fundoSuave: '#f7f9fc',
   superficie: '#ffffff',
   borda: '#e3e8f2',
-  texto: '#0b1b3f',
+  texto: '#0b2d69',
   textoSuave: '#4a5876',
-  primaria: '#0b5bd3',
-  primariaForte: '#0847a6',
+  primaria: '#075de0',
+  primariaForte: '#0549b3',
   primariaTexto: '#ffffff',
-  primariaSuave: '#e8f0fe',
-  azulEscuro: '#0a2a6b',
+  primariaSuave: '#eaf2ff',
+  azulEscuro: '#0b2d69',
   sucesso: '#15803d',
   sucessoSuave: '#dcfce7',
   aviso: '#b45309',
@@ -27,8 +27,8 @@ export const gradientes = {
 } as const
 
 export const sombra = {
-  leve: '0 1px 3px rgba(11, 27, 63, 0.06), 0 1px 2px rgba(11, 27, 63, 0.04)',
-  media: '0 8px 24px rgba(11, 27, 63, 0.08)',
+  leve: '0 1px 2px rgba(11, 45, 105, 0.05)',
+  media: '0 4px 16px rgba(11, 45, 105, 0.06)',
 } as const
 
 export const espaco = { xs: 4, sm: 8, md: 16, lg: 24, xl: 40, xxl: 64 } as const

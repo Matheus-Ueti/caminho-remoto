@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import type { CSSProperties } from 'react'
+import { CapaDaArea } from '@/components/CapaDaArea'
 import { Icone } from '@/components/ui/Icone'
-import { cores, espaco, fonte, gradientes, raio } from '@/lib/tema'
+import { cores, espaco, fonte, raio, sombra } from '@/lib/tema'
 import type { VideoShort } from '@/types'
 
 type PlayerDeShortProps = {
@@ -11,79 +12,106 @@ type PlayerDeShortProps = {
 }
 
 /**
- * Antes do clique, mostra só um cartão com o título: nada é carregado do YouTube.
+ * Antes do clique, mostra só a capa: nada é carregado do YouTube.
  * Depois do clique, abre o player do youtube-nocookie.com, que não grava cookies de rastreamento.
+ * Vídeo marcado como "em breve" não toca.
  */
 export function PlayerDeShort({ video }: PlayerDeShortProps) {
   const [estaTocando, setEstaTocando] = useState(false)
-
-  if (estaTocando) {
-    return (
-      <iframe
-        src={`https://www.youtube-nocookie.com/embed/${video.idDoYoutube}?autoplay=1`}
-        title={video.titulo}
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowFullScreen
-        style={estilos.moldura}
-      />
-    )
-  }
+  const podeTocar = !video.emBreve
 
   return (
-    <button type="button" onClick={() => setEstaTocando(true)} style={estilos.capa}>
-      <span style={estilos.area}>{video.area}</span>
-      <span style={estilos.botaoPlay}>
-        <Icone nome="play" tamanho={28} cor={cores.primaria} />
-      </span>
-      <span style={estilos.titulo}>{video.titulo}</span>
-    </button>
+    <article style={estilos.cartao}>
+      {estaTocando ? (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${video.idDoYoutube}?autoplay=1`}
+          title={video.titulo}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
+          style={estilos.moldura}
+        />
+      ) : (
+        <div style={estilos.imagem}>
+          <CapaDaArea area={video.area} />
+          <span style={estilos.categoria}>{video.area}</span>
+          {podeTocar ? (
+            <button
+              type="button"
+              onClick={() => setEstaTocando(true)}
+              aria-label={`Assistir: ${video.titulo}`}
+              style={estilos.botaoPlay}
+            >
+              <Icone nome="play" tamanho={18} cor={cores.primaria} />
+            </button>
+          ) : (
+            <span style={estilos.emBreve}>Em breve</span>
+          )}
+        </div>
+      )}
+      <h3 style={estilos.titulo}>{video.titulo}</h3>
+    </article>
   )
 }
 
 /* ===================== ESTILOS ===================== */
-const formatoVertical: CSSProperties = {
-  width: '100%',
-  aspectRatio: '9 / 16',
-  border: 0,
-  borderRadius: raio.lg,
-}
-
 const estilos = {
-  moldura: { ...formatoVertical, backgroundColor: cores.azulEscuro },
-  capa: {
-    ...formatoVertical,
+  cartao: { display: 'flex', flexDirection: 'column', gap: espaco.sm },
+  imagem: {
     position: 'relative',
-    padding: espaco.md,
-    cursor: 'pointer',
-    background: gradientes.escuro,
-    color: cores.primariaTexto,
-    fontFamily: fonte.familia,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    textAlign: 'left',
+    overflow: 'hidden',
+    borderRadius: raio.md,
+    border: `1px solid ${cores.borda}`,
   },
-  area: {
-    padding: `2px ${espaco.sm}px`,
+  moldura: {
+    width: '100%',
+    aspectRatio: '16 / 9',
+    border: 0,
+    borderRadius: raio.md,
+    backgroundColor: cores.azulEscuro,
+  },
+  categoria: {
+    position: 'absolute',
+    top: espaco.sm,
+    left: espaco.sm,
+    padding: '2px 10px',
     borderRadius: raio.pilula,
-    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+    backgroundColor: cores.superficie,
+    color: cores.texto,
     fontSize: fonte.tamanho.xs,
     fontWeight: fonte.peso.forte,
   },
-  // Centralizado no cartão, sem depender do tamanho do título.
   botaoPlay: {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 56,
-    height: 56,
+    right: espaco.sm,
+    bottom: espaco.sm,
+    width: 40,
+    height: 40,
+    padding: 0,
+    border: 0,
     borderRadius: raio.pilula,
     backgroundColor: cores.superficie,
+    boxShadow: sombra.media,
+    cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  titulo: { fontSize: fonte.tamanho.sm, fontWeight: fonte.peso.negrito, lineHeight: 1.35 },
+  emBreve: {
+    position: 'absolute',
+    right: espaco.sm,
+    bottom: espaco.sm,
+    padding: '2px 10px',
+    borderRadius: raio.pilula,
+    backgroundColor: cores.azulEscuro,
+    color: cores.primariaTexto,
+    fontSize: fonte.tamanho.xs,
+    fontWeight: fonte.peso.forte,
+  },
+  titulo: {
+    margin: 0,
+    fontSize: fonte.tamanho.md,
+    lineHeight: 1.35,
+    fontWeight: fonte.peso.negrito,
+    color: cores.texto,
+  },
 } satisfies Record<string, CSSProperties>
